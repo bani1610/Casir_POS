@@ -1,0 +1,282 @@
+# Casir POS — Task List
+
+> Urutan pengerjaan dari Setup hingga Production.
+> Tandai `[x]` setiap task yang sudah selesai.
+
+---
+
+## PHASE 1 — SETUP & FONDASI
+
+### 1.1 Backend (Laravel)
+- [x] Init project Laravel 12
+- [x] Konfigurasi `.env` (DB, APP_KEY, APP_URL)
+- [x] Koneksi MySQL berhasil
+- [x] Install Laravel Sanctum
+- [x] Konfigurasi CORS (`config/cors.php`) untuk React frontend
+- [x] Buat struktur folder `app/Services/`, `app/Repositories/`, `app/DTO/`
+- [x] Binding interface di `AppServiceProvider` (Repository Pattern)
+- [x] Buat file `routes/api.php` dengan prefix `/api/v1`
+- [x] Register `api.php` di `bootstrap/app.php`
+- [x] Update `routes/web.php` sebagai SPA catch-all route
+- [x] Buat `resources/views/app.blade.php` sebagai SPA shell
+
+### 1.2 Frontend (React + Vite)
+- [x] Install React + React DOM
+- [x] Install dependencies: `axios`, `react-router-dom`, `zustand`, `react-hook-form`, `@hookform/resolvers`, `zod`, `sonner`, `dayjs`, `lucide-react`, `@vitejs/plugin-react`
+- [x] Update `vite.config.js` untuk React + alias `@`
+- [x] Setup folder struktur (`components/`, `pages/`, `layouts/`, `hooks/`, `services/`, `stores/`, `lib/`, `routes/`, `styles/`)
+- [x] Buat `resources/js/main.jsx` sebagai entry point
+- [x] Buat `resources/js/styles/index.css` (CSS variables design system)
+- [x] Buat `resources/js/lib/axios.js` (Axios instance + interceptors)
+- [x] Buat `resources/js/stores/authStore.js` (Zustand + persist)
+- [x] Buat `resources/js/services/authService.js`
+- [x] Buat `resources/js/routes/index.jsx` (React Router config)
+- [x] Buat `resources/js/components/shared/ProtectedRoute.jsx`
+- [x] Buat semua Layout: `AdminLayout`, `KaryawanLayout`, `GuestLayout`
+- [x] Buat `LoginPage` (React Hook Form + Zod, redirect by role)
+- [x] Buat placeholder semua pages (admin, karyawan, pembeli)
+- [x] Buat `NotFoundPage` dan `UnauthorizedPage`
+
+---
+
+## PHASE 2 — DATABASE
+
+### 2.1 Migration
+- [x] Migration `users` (+ `role`, `is_active`)
+- [x] Migration `categories`
+- [x] Migration `menus` (+ softDeletes)
+- [x] Migration `payment_methods`
+- [x] Migration `orders`
+- [x] Migration `order_items`
+- [x] Migration `audit_logs`
+- [x] Jalankan `php artisan migrate`
+
+### 2.2 Seeder & Factory
+- [ ] Buat `RoleSeeder` → insert data payment methods awal (Cash, QRIS, Transfer)
+- [ ] Buat `UserSeeder` → insert akun admin default
+- [ ] Buat `CategorySeeder` → insert kategori awal (Makanan, Minuman, Snack)
+- [ ] Buat `MenuSeeder` + `MenuFactory` → data dummy menu
+- [ ] Buat `DatabaseSeeder` → panggil semua seeder
+- [ ] Jalankan `php artisan db:seed`
+
+### 2.3 Model & Relasi
+- [ ] Model `User` (fillable, hidden, casts, relasi `orders`, `auditLogs`)
+- [ ] Model `Category` (fillable, relasi `menus`)
+- [ ] Model `Menu` (fillable, SoftDeletes, relasi `category`, `orderItems`)
+- [ ] Model `PaymentMethod` (fillable, relasi `orders`)
+- [ ] Model `Order` (fillable, casts status, relasi `user`, `paymentMethod`, `orderItems`)
+- [ ] Model `OrderItem` (fillable, relasi `order`, `menu`)
+- [ ] Model `AuditLog` (fillable, relasi `user`)
+
+---
+
+## PHASE 3 — AUTHENTICATION
+
+### 3.1 Backend
+- [ ] Buat `AuthController` (`login`, `logout`, `me`)
+- [ ] Buat `LoginRequest` (validasi email + password)
+- [ ] Buat `AuthService` (logic verifikasi, issue token Sanctum)
+- [ ] Buat `UserResource` (format response user)
+- [ ] Daftarkan route `POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`
+- [ ] Middleware `auth:sanctum` pada route terproteksi
+- [ ] Middleware `role` custom untuk membatasi akses per role
+- [ ] Test endpoint login & logout via Postman
+
+### 3.2 Frontend
+- [ ] Buat halaman `LoginPage`
+- [ ] Buat `useAuthStore` (Zustand) — simpan token & data user
+- [ ] Buat `authService.ts` — fungsi `login()`, `logout()`, `getMe()`
+- [ ] Setup Axios interceptor (attach Bearer token otomatis)
+- [ ] Redirect ke dashboard sesuai role setelah login
+- [ ] Guard route (redirect ke login jika belum auth)
+- [ ] Buat komponen `ProtectedRoute`
+
+---
+
+## PHASE 4 — LAYOUT & DASHBOARD
+
+### 4.1 Layout
+- [ ] Buat `AdminLayout` (sidebar + header + outlet)
+- [ ] Buat `KaryawanLayout` (sidebar ringkas + header)
+- [ ] Buat `GuestLayout` (untuk self-order pembeli)
+- [ ] Buat komponen `Sidebar` (navigasi per role)
+- [ ] Buat komponen `Header` (breadcrumb, user info, logout)
+- [ ] Responsif: mobile drawer sidebar
+
+### 4.2 Dashboard Admin
+- [ ] Buat `DashboardController` dengan endpoint statistik
+- [ ] Endpoint `GET /api/v1/dashboard` (total order, pendapatan hari ini, menu terlaris)
+- [ ] Buat `DashboardPage` (Admin)
+- [ ] Komponen `StatCard` (total pendapatan, total order, dll.)
+- [ ] Komponen grafik penjualan (`Recharts` line/bar chart)
+- [ ] Tabel order terbaru (5 terakhir)
+
+### 4.3 Dashboard Karyawan
+- [ ] Buat `DashboardPage` (Karyawan) — tampil order aktif
+- [ ] Daftar order pending/processing
+- [ ] Tombol cepat "Buat Order Baru"
+
+---
+
+## PHASE 5 — MANAJEMEN KATEGORI & MENU
+
+### 5.1 Backend
+- [ ] Buat `CategoryController` (index, store, update, destroy)
+- [ ] Buat `CategoryRequest` (validasi)
+- [ ] Buat `CategoryService` + `CategoryRepository`
+- [ ] Buat `CategoryResource`
+- [ ] Daftarkan route CRUD `/api/v1/categories`
+- [ ] Buat `MenuController` (index, show, store, update, destroy)
+- [ ] Buat `MenuRequest` (validasi + upload foto)
+- [ ] Buat `MenuService` + `MenuRepository`
+- [ ] Buat `MenuResource`
+- [ ] Handle upload gambar ke `storage/app/public/menus`
+- [ ] Daftarkan route CRUD `/api/v1/menus`
+
+### 5.2 Frontend
+- [ ] Buat `CategoryPage` (tabel + modal tambah/edit/hapus)
+- [ ] Buat `MenuPage` (tabel + modal + preview foto)
+- [ ] Komponen `MenuCard` untuk self-order pembeli
+- [ ] Form validasi dengan React Hook Form + Zod
+- [ ] Toast notifikasi (Sonner) untuk setiap aksi
+
+---
+
+## PHASE 6 — MANAJEMEN ORDER
+
+### 6.1 Backend
+- [ ] Buat `OrderController` (index, show, store, update, destroy, updateStatus)
+- [ ] Buat `OrderRequest` (validasi items + payment)
+- [ ] Buat `OrderService` (hitung total, update status, simpan items)
+- [ ] Buat `OrderRepository`
+- [ ] Buat `OrderResource` + `OrderItemResource`
+- [ ] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
+- [ ] Logic self-order pembeli (device fingerprint, sesi 24 jam)
+
+### 6.2 Frontend — Karyawan
+- [ ] Buat `CreateOrderPage` (pilih menu, qty, catatan)
+- [ ] Buat `OrderListPage` (filter status, tanggal)
+- [ ] Buat `OrderDetailPage` (detail item + aksi update status)
+- [ ] Komponen `OrderStatusBadge`
+- [ ] Cetak struk (print CSS / window.print)
+
+### 6.3 Frontend — Pembeli (Self-Order)
+- [ ] Buat `MenuBrowserPage` (tampil semua menu by kategori)
+- [ ] Buat `CartPage` (keranjang, hapus item, ubah qty)
+- [ ] Buat `CheckoutPage` (pilih metode pembayaran, konfirmasi)
+- [ ] Buat `OrderStatusPage` (status order real-time)
+- [ ] Simpan sesi pembeli di localStorage (expire 24 jam)
+
+---
+
+## PHASE 7 — MANAJEMEN KARYAWAN (Admin Only)
+
+- [ ] Buat `UserController` (index, store, update, destroy, toggleActive)
+- [ ] Buat `UserRequest` (validasi + assign role)
+- [ ] Buat `UserService` + `UserRepository`
+- [ ] Buat `UserResource`
+- [ ] Daftarkan route `/api/v1/users`
+- [ ] Buat `KaryawanPage` (tabel karyawan + modal tambah/edit/nonaktifkan)
+- [ ] Reset password karyawan oleh admin
+
+---
+
+## PHASE 8 — LAPORAN & EXPORT
+
+- [ ] Buat `ReportController` (daily, monthly, export)
+- [ ] Buat `ReportService` (query agregasi penjualan)
+- [ ] Endpoint `GET /api/v1/reports/daily`
+- [ ] Endpoint `GET /api/v1/reports/monthly`
+- [ ] Endpoint `GET /api/v1/reports/export` (PDF + Excel)
+- [ ] Install `maatwebsite/excel` untuk export Excel
+- [ ] Install `barryvdh/laravel-dompdf` untuk export PDF
+- [ ] Buat `LaporanPage` (grafik + tabel + tombol export)
+- [ ] Filter laporan: tanggal, kategori, karyawan
+- [ ] Komponen grafik tren penjualan (Recharts)
+
+---
+
+## PHASE 9 — AUDIT LOG
+
+- [ ] Buat `AuditLogObserver` untuk model User, Menu, Order
+- [ ] Register observer di `AppServiceProvider`
+- [ ] Catat event: login, logout, created, updated, deleted
+- [ ] Buat `AuditLogController` (index, filter)
+- [ ] Buat `AuditLogPage` di panel admin
+
+---
+
+## PHASE 10 — SECURITY & HARDENING
+
+- [ ] Rate limiting login (max 5x / menit) di `RouteServiceProvider`
+- [ ] Policy: `MenuPolicy`, `OrderPolicy`, `UserPolicy`
+- [ ] Pastikan semua endpoint diproteksi role yang tepat
+- [ ] Sanitasi input (strip_tags di service layer)
+- [ ] Validasi CORS hanya dari domain frontend
+- [ ] Aktifkan HTTPS di production (Let's Encrypt)
+- [ ] Set `APP_DEBUG=false` dan `APP_ENV=production`
+
+---
+
+## PHASE 11 — TESTING
+
+### 11.1 Backend (PHPUnit)
+- [ ] Feature test: AuthController (login, logout, me)
+- [ ] Feature test: MenuController (CRUD)
+- [ ] Feature test: OrderController (create, update status)
+- [ ] Feature test: ReportController (daily, export)
+- [ ] Unit test: OrderService (hitung total, validasi status)
+- [ ] Jalankan `php artisan test` — pastikan semua green
+
+### 11.2 Frontend (Vitest)
+- [ ] Component test: `LoginPage`
+- [ ] Component test: `MenuCard`
+- [ ] Component test: `CartPage`
+- [ ] Hook test: `useAuthStore`
+- [ ] Jalankan `npm run test`
+
+---
+
+## PHASE 12 — DEPLOYMENT (PRODUCTION)
+
+### 12.1 Server Setup
+- [ ] Provisioning Ubuntu Server LTS
+- [ ] Install Nginx, PHP 8.3-FPM, MySQL 8, Redis, Supervisor
+- [ ] Setup user non-root untuk deploy
+- [ ] Konfigurasi Nginx virtual host
+
+### 12.2 CI/CD (GitHub Actions)
+- [ ] Buat workflow `.github/workflows/deploy.yml`
+- [ ] Step: Install dependencies, run PHPUnit, run Vitest
+- [ ] Step: Build frontend (`npm run build`)
+- [ ] Step: Deploy ke server via SSH
+- [ ] Step: `php artisan migrate --force` + restart queue worker
+
+### 12.3 Go Live Checklist
+- [ ] SSL/HTTPS aktif (Let's Encrypt / Certbot)
+- [ ] `APP_ENV=production`, `APP_DEBUG=false`
+- [ ] `php artisan storage:link`
+- [ ] `php artisan config:cache` + `php artisan route:cache`
+- [ ] Supervisor queue worker berjalan
+- [ ] Redis terkoneksi
+- [ ] Cek semua endpoint API via Postman
+- [ ] Acceptance criteria di PRD Section 28 terpenuhi ✅
+
+---
+
+## Catatan Progress
+
+| Phase | Status | Keterangan |
+|---|---|---|
+| Phase 1 — Setup | 🔄 In Progress | Laravel ok, React belum |
+| Phase 2 — Database | ✅ Done | Semua migration sudah jalan |
+| Phase 3 — Auth | ⬜ Belum | |
+| Phase 4 — Dashboard | ⬜ Belum | |
+| Phase 5 — Menu & Kategori | ⬜ Belum | |
+| Phase 6 — Order | ⬜ Belum | |
+| Phase 7 — Karyawan | ⬜ Belum | |
+| Phase 8 — Laporan | ⬜ Belum | |
+| Phase 9 — Audit Log | ⬜ Belum | |
+| Phase 10 — Security | ⬜ Belum | |
+| Phase 11 — Testing | ⬜ Belum | |
+| Phase 12 — Production | ⬜ Belum | |
