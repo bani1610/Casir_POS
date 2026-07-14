@@ -150,13 +150,13 @@
 ## PHASE 6 — MANAJEMEN ORDER `👤 Bani`
 
 ### 6.1 Backend
-- [ ] Buat `OrderController` (index, show, store, update, destroy, updateStatus)
-- [ ] Buat `OrderRequest` (validasi items + payment)
-- [ ] Buat `OrderService` (hitung total, update status, simpan items)
-- [ ] Buat `OrderRepository`
-- [ ] Buat `OrderResource` + `OrderItemResource`
-- [ ] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
-- [ ] Logic self-order pembeli (device fingerprint, sesi 24 jam)
+- [x] Buat `OrderController` (index, show, store, update, destroy, updateStatus)
+- [x] Buat `OrderRequest` (validasi items + payment)
+- [x] Buat `OrderService` (hitung total, update status, simpan items)
+- [x] Buat `OrderRepository`
+- [x] Buat `OrderResource` + `OrderItemResource`
+- [x] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
+- [x] Logic self-order pembeli (device fingerprint, sesi 24 jam)
 
 ### 6.2 Frontend — Karyawan
 - [ ] Buat `CreateOrderPage` (pilih menu, qty, catatan)
@@ -309,7 +309,7 @@
 | Phase 3 — Auth | ⬜ Belum | Dev A | |
 | Phase 4 — Dashboard | ⬜ Belum | Dev A | |
 | Phase 5 — Menu & Kategori | ⬜ Belum | Dev A | |
-| Phase 6 — Order | ⬜ Belum | Dev B | |
+| Phase 6 — Order | 🔄 In Progress | Dev B | 6.1 Backend selesai |
 | Phase 7 — Karyawan | ⬜ Belum | Dev B | |
 | Phase 8 — Laporan | ⬜ Belum | Dev A | |
 | Phase 9 — Audit Log | ⬜ Belum | Dev A | |
