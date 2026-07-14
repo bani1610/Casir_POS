@@ -9,7 +9,7 @@ use App\Http\Resources\OrderResource;
 use App\Models\Menu;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Request;
 
 class SelfOrderController extends Controller
 {
@@ -18,28 +18,40 @@ class SelfOrderController extends Controller
     /**
      * GET /api/v1/self-order/menus
      * Daftar menu yang tersedia untuk pembeli (tanpa auth).
-     * Dikelompokkan per kategori.
+     * Mendukung filter category_id dan search (nama/deskripsi).
      */
-    public function menuList(): JsonResponse
+    public function menuList(Request $request): JsonResponse
     {
         $menus = Menu::with('category')
             ->available()
+            ->when($request->query('category_id'), function ($query, $categoryId) {
+                $query->where('category_id', $categoryId);
+            })
+            ->when($request->query('search'), function ($query, $search) {
+                $query->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%");
+            })
+            ->orderBy('category_id')
             ->orderBy('name')
-            ->get()
-            ->groupBy(fn ($menu) => $menu->category->name ?? 'Lainnya')
-            ->map(fn ($items, $category) => [
-                'category' => $category,
-                'items'    => $items->map(fn ($menu) => [
-                    'id'          => $menu->id,
-                    'name'        => $menu->name,
-                    'description' => $menu->description,
-                    'price'       => (float) $menu->price,
-                    'image_url'   => $menu->image_url,
-                ])->values(),
-            ])->values();
+            ->get();
 
         return response()->json([
-            'data' => $menus,
+            'message' => 'Daftar menu berhasil diambil.',
+            'data'    => $menus->map(fn ($menu) => [
+                'id'          => $menu->id,
+                'category_id' => $menu->category_id,
+                'name'        => $menu->name,
+                'slug'        => $menu->slug,
+                'description' => $menu->description,
+                'price'       => (float) $menu->price,
+                'image_url'   => $menu->image_url,
+                'is_available'=> $menu->is_available,
+                'category'    => $menu->category ? [
+                    'id'   => $menu->category->id,
+                    'name' => $menu->category->name,
+                    'slug' => $menu->category->slug,
+                ] : null,
+            ])->values(),
         ]);
     }
 
@@ -58,16 +70,17 @@ class SelfOrderController extends Controller
         $dto = OrderDTO::fromArray(array_merge(
             $request->validated(),
             [
-                'user_id' => null,  // self-order tidak terikat user
+                'user_id' => null,   // self-order tidak terikat user
                 'status'  => 'pending',
             ]
         ));
 
         $order = $this->service->createSelfOrder($dto);
 
-        return (new OrderResource($order))
-            ->response()
-            ->setStatusCode(201);
+        return response()->json([
+            'message' => 'Order berhasil dibuat. Silakan menunggu pesanan Anda diproses.',
+            'data'    => new OrderResource($order),
+        ], 201);
     }
 
     /**
@@ -88,7 +101,8 @@ class SelfOrderController extends Controller
         }
 
         return response()->json([
-            'data' => OrderResource::collection($orders),
+            'message' => 'Status order berhasil diambil.',
+            'data'    => OrderResource::collection($orders),
         ]);
     }
 }

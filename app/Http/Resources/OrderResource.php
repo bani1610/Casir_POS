@@ -10,33 +10,32 @@ class OrderResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'id'          => $this->id,
-            'status'      => $this->status,
-            'total_price' => (float) $this->total_price,
-            'table_number'         => $this->table_number,
-            'customer_identifier'  => $this->customer_identifier,
-            'notes'       => $this->notes,
-            'is_self_order' => $this->isSelfOrder(),
-            'paid_at'     => $this->paid_at?->toISOString(),
+            'id'                  => $this->id,
+            'status'              => $this->status,
+            'total_price'         => (float) $this->total_price,
+            'table_number'        => $this->table_number,
+            'customer_identifier' => $this->customer_identifier,
+            'notes'               => $this->notes,
+            'is_self_order'       => $this->isSelfOrder(),
+            'paid_at'             => $this->paid_at?->toISOString(),
 
             // ─── Relasi User (karyawan/admin yang membuat) ────────────
-            'user' => $this->whenLoaded('user', fn () => [
-                'id'   => $this->user->id,
-                'name' => $this->user->name,
-                'role' => $this->user->role,
-            ]),
+            'user' => $this->whenLoaded('user', fn () => $this->user ? [
+                'id'    => $this->user->id,
+                'name'  => $this->user->name,
+                'email' => $this->user->email,
+                'role'  => $this->user->role,
+            ] : null),
 
             // ─── Relasi Payment Method ────────────────────────────────
-            'payment_method' => $this->whenLoaded('paymentMethod', fn () => [
-                'id'   => $this->paymentMethod->id,
-                'name' => $this->paymentMethod->name,
-                'type' => $this->paymentMethod->type,
-            ]),
+            'payment_method' => $this->whenLoaded('paymentMethod', fn () => $this->paymentMethod ? [
+                'id'          => $this->paymentMethod->id,
+                'name'        => $this->paymentMethod->name,
+                'description' => $this->paymentMethod->description,
+            ] : null),
 
             // ─── Order Items ──────────────────────────────────────────
-            'items' => OrderItemResource::collection(
-                $this->whenLoaded('orderItems')
-            ),
+            'items'       => OrderItemResource::collection($this->whenLoaded('orderItems')),
             'items_count' => $this->whenCounted('orderItems'),
 
             'created_at' => $this->created_at?->toISOString(),

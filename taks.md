@@ -3,8 +3,10 @@
 > Urutan pengerjaan dari Setup hingga Production.
 > Tandai `[x]` setiap task yang sudah selesai.
 >
-> **Dev A** → Fitur: Auth, Dashboard, Manajemen Menu & Kategori, Laporan, Audit Log, Security & Deployment
-> **Dev B** → Fitur: Database & Model, Manajemen Order, Manajemen Karyawan, Self-Order Pembeli, Testing
+> **Umar (Dev A)** → Fitur: Auth, Dashboard, Manajemen Menu & Kategori, Laporan, Audit Log, Security & Deployment
+> **Bani (Dev B)** → Fitur: Database & Model, Manajemen Order, Manajemen Karyawan, Self-Order Pembeli
+>
+> ⚠️ **DEPENDENCY CRITICAL**: Bani TIDAK BISA kerjakan frontend sebelum Umar selesai Phase 3 (Auth) + Phase 4 (Layout) + Phase 5 (Menu API)
 
 ---
 
@@ -149,6 +151,7 @@
 
 ## PHASE 6 — MANAJEMEN ORDER `👤 Bani`
 
+<<<<<<< HEAD
 ### 6.1 Backend
 - [x] Buat `OrderController` (index, show, store, update, destroy, updateStatus)
 - [x] Buat `OrderRequest` (validasi items + payment)
@@ -157,15 +160,28 @@
 - [x] Buat `OrderResource` + `OrderItemResource`
 - [x] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
 - [x] Logic self-order pembeli (device fingerprint, sesi 24 jam)
+=======
+> ✅ Backend bisa dikerjakan tanpa menunggu Umar.
+> ❌ Frontend Karyawan & Self-Order butuh Phase 3 Auth, Phase 4 Layout, dan Phase 5 Menu API dari Umar.
+>>>>>>> f8badd55e32a7be3bee105d2bc0ccede290c97fc
 
-### 6.2 Frontend — Karyawan
+### 6.1 Backend `✅ Bisa dikerjakan sekarang`
+- [x] Buat `OrderController` (index, show, store, update, destroy, updateStatus)
+- [x] Buat `OrderRequest` (validasi items + payment)
+- [x] Buat `OrderService` (hitung total, update status, simpan items)
+- [x] Buat `OrderRepository`
+- [x] Buat `OrderResource` + `OrderItemResource`
+- [x] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
+- [x] Logic self-order pembeli (device fingerprint, sesi 24 jam)
+
+### 6.2 Frontend — Karyawan `⛔ Blocked by Umar Phase 3 + Phase 4 + Phase 5`
 - [ ] Buat `CreateOrderPage` (pilih menu, qty, catatan)
 - [ ] Buat `OrderListPage` (filter status, tanggal)
 - [ ] Buat `OrderDetailPage` (detail item + aksi update status)
 - [ ] Komponen `OrderStatusBadge`
 - [ ] Cetak struk (print CSS / window.print)
 
-### 6.3 Frontend — Pembeli (Self-Order) `👤 Bani`
+### 6.3 Frontend — Pembeli (Self-Order) `👤 Bani` `⛔ Blocked by Umar Phase 5 Menu API`
 - [ ] Buat `MenuBrowserPage` (tampil semua menu by kategori)
 - [ ] Buat `CartPage` (keranjang, hapus item, ubah qty)
 - [ ] Buat `CheckoutPage` (pilih metode pembayaran, konfirmasi)
@@ -176,12 +192,15 @@
 
 ## PHASE 7 — MANAJEMEN KARYAWAN `👤 Bani`
 
+> ✅ Backend bisa dikerjakan tanpa menunggu Umar.
+> ❌ Frontend `KaryawanPage` butuh Phase 3 Auth dan Phase 4 AdminLayout dari Umar.
+
 - [ ] Buat `UserController` (index, store, update, destroy, toggleActive)
 - [ ] Buat `UserRequest` (validasi + assign role)
 - [ ] Buat `UserService` + `UserRepository`
 - [ ] Buat `UserResource`
 - [ ] Daftarkan route `/api/v1/users`
-- [ ] Buat `KaryawanPage` (tabel karyawan + modal tambah/edit/nonaktifkan)
+- [ ] Buat `KaryawanPage` (tabel karyawan + modal tambah/edit/nonaktifkan) `⛔ Blocked by Umar Phase 3 + Phase 4`
 - [ ] Reset password karyawan oleh admin
 
 ---
@@ -201,7 +220,10 @@
 
 ---
 
-## PHASE 9 — AUDIT LOG `👤 Bani`
+## PHASE 9 — AUDIT LOG `👤 Umar`
+
+> ✅ Backend bisa dikerjakan kapan saja.
+> ❌ Frontend `AuditLogPage` butuh Phase 4 AdminLayout dari Umar.
 
 - [ ] Buat `AuditLogObserver` untuk model User, Menu, Order
 - [ ] Register observer di `AppServiceProvider`
@@ -211,7 +233,9 @@
 
 ---
 
-## PHASE 10 — SECURITY & HARDENING `👤 Bani`
+## PHASE 10 — SECURITY & HARDENING `👤 Umar`
+
+> ⛔ Dikerjakan setelah Phase 3–8 selesai karena bergantung pada semua controller, route, dan role access.
 
 - [ ] Rate limiting login (max 5x / menit) di `RouteServiceProvider`
 - [ ] Policy: `MenuPolicy`, `OrderPolicy`, `UserPolicy`
@@ -225,16 +249,16 @@
 
 ## PHASE 11 — TESTING
 
-### 11.1 Backend — PHPUnit `👤 Bani`
+### 11.1 Backend — PHPUnit `👤 Umar`
 - [ ] Feature test: AuthController (login, logout, me)
 - [ ] Feature test: MenuController (CRUD)
 - [ ] Feature test: ReportController (daily, export)
-- [ ] Unit test: OrderService (hitung total, validasi status)
 - [ ] Jalankan `php artisan test` — pastikan semua green
 
-### 11.2 Backend — PHPUnit `👤 Umar`
+### 11.2 Backend — PHPUnit `👤 Bani`
 - [ ] Feature test: OrderController (create, update status)
 - [ ] Feature test: UserController (CRUD, toggleActive)
+- [ ] Unit test: OrderService (hitung total, validasi status)
 - [ ] Jalankan `php artisan test` — pastikan semua green
 
 ### 11.3 Frontend — Vitest `👤 Umar`
@@ -252,7 +276,7 @@
 
 ## PHASE 12 — DEPLOYMENT (PRODUCTION)
 
-### 12.1 Server Setup `👤 Bani`
+### 12.1 Server Setup `👤 Umar`
 - [ ] Provisioning Ubuntu Server LTS
 - [ ] Install Nginx, PHP 8.3-FPM, MySQL 8, Redis, Supervisor
 - [ ] Setup user non-root untuk deploy
@@ -279,18 +303,21 @@
 
 ## Ringkasan Pembagian Tugas
 
-| Fitur | Dev A | Dev B |
+| Fitur | Umar | Bani |
 |---|---|---|
 | Setup & Fondasi | ✅ Bersama | ✅ Bersama |
 | Database & Model | — | ✅ |
 | Authentication | ✅ | — |
 | Layout & Dashboard | ✅ | — |
 | Manajemen Menu & Kategori | ✅ | — |
-| Manajemen Order | — | ✅ |
-| Self-Order Pembeli | — | ✅ |
-| Manajemen Karyawan | — | ✅ |
+| Manajemen Order (Backend) | — | ✅ Backend |
+| Manajemen Order (Frontend) | — | ✅ Frontend (setelah Umar Phase 3,4,5) |
+| Self-Order Pembeli | — | ✅ (setelah Umar Phase 5) |
+| Manajemen Karyawan (Backend) | — | ✅ Backend |
+| Manajemen Karyawan (Frontend) | — | ✅ Frontend (setelah Umar Phase 3,4) |
 | Laporan & Export | ✅ | — |
-| Audit Log | ✅ | — |
+| Audit Log (Backend) | ✅ Backend | — |
+| Audit Log (Frontend) | ✅ Frontend | — |
 | Security & Hardening | ✅ | — |
 | Testing (Auth, Menu, Laporan) | ✅ | — |
 | Testing (Order, Karyawan) | — | ✅ |
@@ -304,8 +331,9 @@
 
 | Phase | Status | Dev | Keterangan |
 |---|---|---|---|
-| Phase 1 — Setup | 🔄 In Progress | Bersama | Laravel ok, React belum |
+| Phase 1 — Setup | ✅ Done | Bersama | Laravel + React setup selesai |
 | Phase 2 — Database | ✅ Done | Bani | Migration + Seeder + Model & Relasi selesai |
+<<<<<<< HEAD
 | Phase 3 — Auth | ⬜ Belum | Dev A | |
 | Phase 4 — Dashboard | ⬜ Belum | Dev A | |
 | Phase 5 — Menu & Kategori | ⬜ Belum | Dev A | |
@@ -316,3 +344,58 @@
 | Phase 10 — Security | ⬜ Belum | Dev A | |
 | Phase 11 — Testing | ⬜ Belum | Bersama | |
 | Phase 12 — Production | ⬜ Belum | Bersama | |
+=======
+| Phase 3 — Auth | ⬜ Belum | Umar | **BLOCKING**: Bani butuh ini untuk frontend |
+| Phase 4 — Dashboard | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Layout untuk frontend |
+| Phase 5 — Menu & Kategori | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Menu API untuk Self-Order |
+| Phase 6 — Order (Backend) | ⬜ Belum | Bani | ✅ Bisa dikerjakan sekarang |
+| Phase 6 — Order (Frontend) | ⬜ Belum | Bani | ⛔ Butuh Phase 3, 4, 5 dari Umar |
+| Phase 7 — Karyawan (Backend) | ⬜ Belum | Bani | ✅ Bisa dikerjakan sekarang |
+| Phase 7 — Karyawan (Frontend) | ⬜ Belum | Bani | ⛔ Butuh Phase 3, 4 dari Umar |
+| Phase 8 — Laporan | ⬜ Belum | Umar | — |
+| Phase 9 — Audit Log | ⬜ Belum | Umar | — |
+| Phase 10 — Security | ⬜ Belum | Umar | Dikerjakan setelah Phase 3–8 |
+| Phase 11 — Testing | ⬜ Belum | Bersama | — |
+| Phase 12 — Production | ⬜ Belum | Bersama | — |
+
+---
+
+## 🚦 Apa yang Bisa Bani Kerjakan Sekarang?
+
+### ✅ Yang BISA dikerjakan (tanpa tunggu Umar):
+
+**Phase 6 — Order Management (Backend only)**
+- `OrderController` (index, show, store, update, destroy, updateStatus)
+- `OrderRequest` (validasi items + payment)
+- `OrderService` (hitung total, update status, simpan items)
+- `OrderRepository`
+- `OrderResource` + `OrderItemResource`
+- Route `/api/v1/orders`
+- Logic self-order pembeli (device fingerprint, sesi 24 jam)
+
+**Phase 7 — Karyawan Management (Backend only)**
+- `UserController` (index, store, update, destroy, toggleActive)
+- `UserRequest` (validasi + assign role)
+- `UserService` + `UserRepository`
+- `UserResource`
+- Route `/api/v1/users`
+- Logic reset password karyawan
+
+### ⛔ Yang TIDAK BISA dikerjakan (harus tunggu Umar):
+
+**Semua Frontend Order & Karyawan** karena butuh:
+- Phase 3: Auth API (login, logout, me) + middleware auth:sanctum
+- Phase 4: AdminLayout & KaryawanLayout + Sidebar + Header
+- Phase 5: Menu API (untuk Self-Order MenuBrowserPage)
+
+**Self-Order Pembeli (Frontend)** butuh:
+- Phase 5: Menu API untuk tampilkan daftar menu
+
+### 💡 Rekomendasi Strategi:
+
+1. **Bani mulai Backend dulu**: Kerjakan OrderController, UserController, Service, Repository
+2. **Umar prioritas Auth + Layout**: Phase 3 & 4 adalah BLOCKING untuk semua frontend Bani
+3. **Setelah Umar selesai Phase 3–4**: Bani bisa lanjut semua frontend Order & Karyawan
+4. **Setelah Umar selesai Phase 5**: Bani bisa lanjut Self-Order Pembeli
+5. **Testing parallel**: Setelah backend/frontend masing-masing selesai, masing-masing test fiturnya sendiri
+>>>>>>> f8badd55e32a7be3bee105d2bc0ccede290c97fc

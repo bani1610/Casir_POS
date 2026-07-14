@@ -8,10 +8,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\OrderRequest;
 use App\Http\Requests\Api\UpdateOrderStatusRequest;
 use App\Http\Resources\OrderResource;
+use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class OrderController extends Controller
 {
@@ -21,7 +21,7 @@ class OrderController extends Controller
      * GET /api/v1/orders
      * Daftar order dengan pagination, filter status, tanggal, dsb.
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Request $request): JsonResponse
     {
         $pagination = PaginationDTO::fromRequest($request);
 
@@ -36,16 +36,28 @@ class OrderController extends Controller
 
         $orders = $this->service->getPaginated($pagination, $filters);
 
-        return OrderResource::collection($orders);
+        return response()->json([
+            'message' => 'Data order berhasil diambil.',
+            'data'    => OrderResource::collection($orders->items()),
+            'meta'    => [
+                'current_page' => $orders->currentPage(),
+                'last_page'    => $orders->lastPage(),
+                'per_page'     => $orders->perPage(),
+                'total'        => $orders->total(),
+            ],
+        ]);
     }
 
     /**
      * GET /api/v1/orders/{order}
      * Detail satu order beserta items dan relasi lainnya.
      */
-    public function show(int $order): OrderResource
+    public function show(int $order): JsonResponse
     {
-        return new OrderResource($this->service->getById($order));
+        return response()->json([
+            'message' => 'Detail order berhasil diambil.',
+            'data'    => new OrderResource($this->service->getById($order)),
+        ]);
     }
 
     /**
@@ -54,29 +66,39 @@ class OrderController extends Controller
      */
     public function store(OrderRequest $request): JsonResponse
     {
-        $dto = OrderDTO::fromArray(array_merge(
-            $request->validated(),
-            ['user_id' => $request->user()->id]
-        ));
+        $payload = $request->validated();
 
-        $order = $this->service->create($dto);
+        // Karyawan/admin yang login otomatis jadi creator order
+        if ($request->user()) {
+            $payload['user_id'] = $request->user()->id;
+        }
 
-        return (new OrderResource($order))
-            ->response()
-            ->setStatusCode(201);
+        $order = $this->service->create(OrderDTO::fromArray($payload));
+
+        return response()->json([
+            'message' => 'Order berhasil dibuat.',
+            'data'    => new OrderResource($order),
+        ], 201);
     }
 
     /**
      * PUT/PATCH /api/v1/orders/{order}
      * Update order (items, payment, catatan).
      */
-    public function update(OrderRequest $request, int $order): OrderResource
+    public function update(OrderRequest $request, int $order): JsonResponse
     {
-        $dto = OrderDTO::fromArray($request->validated());
+        $payload = $request->validated();
 
-        return new OrderResource(
-            $this->service->update($order, $dto)
-        );
+        if ($request->user()) {
+            $payload['user_id'] = $request->user()->id;
+        }
+
+        return response()->json([
+            'message' => 'Order berhasil diperbarui.',
+            'data'    => new OrderResource(
+                $this->service->update($order, OrderDTO::fromArray($payload))
+            ),
+        ]);
     }
 
     /**
@@ -99,9 +121,12 @@ class OrderController extends Controller
     public function updateStatus(
         UpdateOrderStatusRequest $request,
         int $order
-    ): OrderResource {
-        return new OrderResource(
-            $this->service->updateStatus($order, $request->validated('status'))
-        );
+    ): JsonResponse {
+        $updated = $this->service->updateStatus($order, $request->validated('status'));
+
+        return response()->json([
+            'message' => 'Status order berhasil diperbarui.',
+            'data'    => new OrderResource($updated),
+        ]);
     }
 }

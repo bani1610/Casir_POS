@@ -39,25 +39,32 @@ class OrderService
     }
 
     /**
+     * Self-order pembeli: temukan order berdasarkan customer_identifier (24 jam).
+     */
+    public function getByCustomerIdentifier(string $customerIdentifier): Collection
+    {
+        return $this->repository->findByCustomerIdentifier($customerIdentifier);
+    }
+
+    /**
      * Buat order baru (oleh karyawan/admin).
      * Harga & subtotal diambil langsung dari data Menu (snapshot).
      */
     public function create(OrderDTO $dto): Order
     {
-        $items = $this->resolveItems($dto->items);
-
+        $items      = $this->resolveItems($dto->items);
         $totalPrice = collect($items)->sum('subtotal');
 
         $dto = new OrderDTO(
-            id: $dto->id,
-            userId: $dto->userId,
-            paymentMethodId: $dto->paymentMethodId,
-            tableNumber: $dto->tableNumber,
+            id:                 $dto->id,
+            userId:             $dto->userId,
+            paymentMethodId:    $dto->paymentMethodId,
+            tableNumber:        $dto->tableNumber,
             customerIdentifier: $dto->customerIdentifier,
-            status: $dto->status,
-            totalPrice: $totalPrice,
-            notes: $dto->notes,
-            items: $items,
+            status:             $dto->status ?? Order::STATUS_PENDING,
+            totalPrice:         $totalPrice,
+            notes:              $dto->notes,
+            items:              $items,
         );
 
         return $this->repository->create($dto);
@@ -71,20 +78,19 @@ class OrderService
     {
         $this->getById($id);
 
-        $items = $this->resolveItems($dto->items);
-
+        $items      = $this->resolveItems($dto->items);
         $totalPrice = collect($items)->sum('subtotal');
 
         $dto = new OrderDTO(
-            id: $id,
-            userId: $dto->userId,
-            paymentMethodId: $dto->paymentMethodId,
-            tableNumber: $dto->tableNumber,
+            id:                 $id,
+            userId:             $dto->userId,
+            paymentMethodId:    $dto->paymentMethodId,
+            tableNumber:        $dto->tableNumber,
             customerIdentifier: $dto->customerIdentifier,
-            status: $dto->status,
-            totalPrice: $totalPrice,
-            notes: $dto->notes,
-            items: $items,
+            status:             $dto->status,
+            totalPrice:         $totalPrice,
+            notes:              $dto->notes,
+            items:              $items,
         );
 
         return $this->repository->update($id, $dto);
@@ -106,21 +112,14 @@ class OrderService
     {
         $order = $this->getById($id);
 
+        // Hanya order dengan status pending atau cancelled yang boleh dihapus
         if (! in_array($order->status, [Order::STATUS_PENDING, Order::STATUS_CANCELLED])) {
             throw ValidationException::withMessages([
-                'order' => 'Hanya order berstatus pending atau cancelled yang dapat dihapus.',
+                'order' => "Order dengan status '{$order->status}' tidak bisa dihapus.",
             ]);
         }
 
         return $this->repository->delete($id);
-    }
-
-    /**
-     * Self-order pembeli: temukan order berdasarkan customer_identifier (24 jam).
-     */
-    public function getByCustomerIdentifier(string $customerIdentifier): Collection
-    {
-        return $this->repository->findByCustomerIdentifier($customerIdentifier);
     }
 
     /**
@@ -141,39 +140,60 @@ class OrderService
 
     /**
      * Resolve items dari request: ambil snapshot harga dari Menu,
-     * hitung subtotal, return array siap simpan ke DB.
+     * merge item dengan menu_id yang sama, hitung subtotal.
+     * Hanya menu yang is_available=true yang diizinkan.
      */
     protected function resolveItems(array $rawItems): array
     {
-        $resolved = [];
+        if (empty($rawItems)) {
+            throw ValidationException::withMessages([
+                'items' => 'Minimal satu item menu wajib dipilih.',
+            ]);
+        }
 
-        foreach ($rawItems as $item) {
-            $menu = Menu::withTrashed()->findOrFail($item['menu_id']);
+        // Merge item dengan menu_id yang sama sebelum query ke DB
+        $merged = collect($rawItems)
+            ->groupBy('menu_id')
+            ->map(fn ($group, $menuId) => [
+                'menu_id'  => (int) $menuId,
+                'quantity' => $group->sum('quantity'),
+            ])
+            ->values()
+            ->all();
 
-            $quantity     = (int) ($item['quantity'] ?? 1);
+        $menuIds = array_column($merged, 'menu_id');
+
+        // Ambil semua menu dalam satu query (only available)
+        $menus = Menu::available()->whereIn('id', $menuIds)->get()->keyBy('id');
+
+        if (count($menus) !== count(array_unique($menuIds))) {
+            throw ValidationException::withMessages([
+                'items' => 'Ada menu yang tidak tersedia atau tidak ditemukan.',
+            ]);
+        }
+
+        return collect($merged)->map(function ($item) use ($menus) {
+            $menu         = $menus[$item['menu_id']];
+            $quantity     = (int) $item['quantity'];
             $priceAtOrder = (float) $menu->price;
             $subtotal     = $quantity * $priceAtOrder;
 
-            $resolved[] = (new OrderItemDTO(
-                menuId: $menu->id,
-                menuName: $menu->name,
-                quantity: $quantity,
+            return (new OrderItemDTO(
+                menuId:       $menu->id,
+                menuName:     $menu->name,
+                quantity:     $quantity,
                 priceAtOrder: $priceAtOrder,
-                subtotal: $subtotal,
+                subtotal:     $subtotal,
             ))->toArray();
-        }
-
-        return $resolved;
+        })->all();
     }
 
     /**
      * Validasi transisi status order.
      * pending → processing → done | cancelled
      */
-    protected function validateStatusTransition(
-        string $current,
-        string $next
-    ): void {
+    protected function validateStatusTransition(string $current, string $next): void
+    {
         $allowed = [
             Order::STATUS_PENDING    => [Order::STATUS_PROCESSING, Order::STATUS_CANCELLED],
             Order::STATUS_PROCESSING => [Order::STATUS_DONE, Order::STATUS_CANCELLED],
