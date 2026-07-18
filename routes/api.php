@@ -30,35 +30,36 @@ Route::prefix('v1')->group(function () {
             Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
         });
 
+        // TODO: Uncomment when controllers are implemented
         // Dashboard
-        Route::get('dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index']);
+        // Route::get('dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index']);
 
         // Categories
-        Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
+        // Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
 
         // Menus
-        Route::apiResource('menus', \App\Http\Controllers\Api\MenuController::class);
+        // Route::apiResource('menus', \App\Http\Controllers\Api\MenuController::class);
 
         // Payment Methods
-        Route::apiResource('payment-methods', \App\Http\Controllers\Api\PaymentMethodController::class);
+        // Route::apiResource('payment-methods', \App\Http\Controllers\Api\PaymentMethodController::class);
 
         // Orders
         Route::patch('orders/{order}/status', [\App\Http\Controllers\Api\OrderController::class, 'updateStatus']);
         Route::apiResource('orders', \App\Http\Controllers\Api\OrderController::class);
 
         // Reports (Admin only)
-        Route::prefix('reports')->group(function () {
-            Route::get('daily', [\App\Http\Controllers\Api\ReportController::class, 'daily']);
-            Route::get('monthly', [\App\Http\Controllers\Api\ReportController::class, 'monthly']);
-            Route::get('export', [\App\Http\Controllers\Api\ReportController::class, 'export']);
-        });
+        // Route::prefix('reports')->group(function () {
+        //     Route::get('daily', [\App\Http\Controllers\Api\ReportController::class, 'daily']);
+        //     Route::get('monthly', [\App\Http\Controllers\Api\ReportController::class, 'monthly']);
+        //     Route::get('export', [\App\Http\Controllers\Api\ReportController::class, 'export']);
+        // });
 
         // Users / Karyawan (Admin only)
-        Route::patch('users/{user}/toggle-active', [\App\Http\Controllers\Api\UserController::class, 'toggleActive']);
-        Route::apiResource('users', \App\Http\Controllers\Api\UserController::class);
+        // Route::patch('users/{user}/toggle-active', [\App\Http\Controllers\Api\UserController::class, 'toggleActive']);
+        // Route::apiResource('users', \App\Http\Controllers\Api\UserController::class);
 
         // Audit Logs (Admin only)
-        Route::get('audit-logs', [\App\Http\Controllers\Api\AuditLogController::class, 'index']);
+        // Route::get('audit-logs', [\App\Http\Controllers\Api\AuditLogController::class, 'index']);
     });
 
     // ─── Public Self-Order (Pembeli, no auth) ─────────────────────────

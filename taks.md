@@ -80,23 +80,23 @@
 ## PHASE 3 — AUTHENTICATION `👤 Umar`
 
 ### 3.1 Backend
-- [ ] Buat `AuthController` (`login`, `logout`, `me`)
-- [ ] Buat `LoginRequest` (validasi email + password)
-- [ ] Buat `AuthService` (logic verifikasi, issue token Sanctum)
-- [ ] Buat `UserResource` (format response user)
-- [ ] Daftarkan route `POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`
-- [ ] Middleware `auth:sanctum` pada route terproteksi
-- [ ] Middleware `role` custom untuk membatasi akses per role
-- [ ] Test endpoint login & logout via Postman
+- [x] Buat `AuthController` (`login`, `logout`, `me`)
+- [x] Buat `LoginRequest` (validasi email + password)
+- [x] Buat `AuthService` (logic verifikasi, issue token Sanctum)
+- [x] Buat `UserResource` (format response user)
+- [x] Daftarkan route `POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`
+- [x] Middleware `auth:sanctum` pada route terproteksi
+- [x] Middleware `role` custom untuk membatasi akses per role
+- [x] Test endpoint login & logout via Postman
 
 ### 3.2 Frontend
-- [ ] Buat halaman `LoginPage`
-- [ ] Buat `useAuthStore` (Zustand) — simpan token & data user
-- [ ] Buat `authService.js` — fungsi `login()`, `logout()`, `getMe()`
-- [ ] Setup Axios interceptor (attach Bearer token otomatis)
-- [ ] Redirect ke dashboard sesuai role setelah login
-- [ ] Guard route (redirect ke login jika belum auth)
-- [ ] Buat komponen `ProtectedRoute`
+- [x] Buat halaman `LoginPage`
+- [x] Buat `useAuthStore` (Zustand) — simpan token & data user
+- [x] Buat `authService.js` — fungsi `login()`, `logout()`, `getMe()`
+- [x] Setup Axios interceptor (attach Bearer token otomatis)
+- [x] Redirect ke dashboard sesuai role setelah login
+- [x] Guard route (redirect ke login jika belum auth)
+- [x] Buat komponen `ProtectedRoute`
 
 ---
 

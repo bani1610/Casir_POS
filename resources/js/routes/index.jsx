@@ -29,6 +29,7 @@ const CheckoutPage      = lazy(() => import('@/pages/pembeli/CheckoutPage'));
 const OrderStatusPage   = lazy(() => import('@/pages/pembeli/OrderStatusPage'));
 
 // Misc
+const RootRedirect      = lazy(() => import('@/pages/RootRedirect'));
 const NotFoundPage      = lazy(() => import('@/pages/NotFoundPage'));
 const UnauthorizedPage  = lazy(() => import('@/pages/UnauthorizedPage'));
 
@@ -47,6 +48,12 @@ const withSuspense = (Component) => (
 
 // ─── Router ────────────────────────────────────────────
 const router = createBrowserRouter([
+    // Root
+    {
+        path: '/',
+        element: withSuspense(RootRedirect),
+    },
+
     // Public
     {
         path: '/login',
