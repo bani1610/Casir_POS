@@ -1,41 +1,50 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useNavigate, Navigate, Link } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { toast } from 'sonner';
-import { LogIn, Eye, EyeOff } from 'lucide-react';
+import { Lock, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
 import { authService } from '@/services/authService';
-import { useAuthStore } from '@/stores/authStore';
 
 const schema = z.object({
-    email: z.string().email('Format email tidak valid'),
-    password: z.string().min(1, 'Password wajib diisi'),
-    remember: z.boolean().optional(),
+    password: z.string().min(8, 'Password minimal 8 karakter'),
+    password_confirmation: z.string().min(8, 'Password minimal 8 karakter'),
+}).refine(data => data.password === data.password_confirmation, {
+    message: 'Password tidak cocok',
+    path: ['password_confirmation'],
 });
 
-export default function LoginPage() {
-    const { isAuthenticated, user, setAuth } = useAuthStore();
+export default function ResetPasswordPage() {
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
     const [showPass, setShowPass] = useState(false);
+    const [showConfirm, setShowConfirm] = useState(false);
 
-    // Redirect jika sudah login
-    if (isAuthenticated) {
-        return <Navigate to={user?.role === 'admin' ? '/admin' : '/karyawan'} replace />;
-    }
+    const token = searchParams.get('token');
+    const email = searchParams.get('email');
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({
         resolver: zodResolver(schema),
     });
 
     const onSubmit = async (values) => {
+        if (!token || !email) {
+            toast.error('Link reset password tidak valid.');
+            return;
+        }
+
         try {
-            const { data } = await authService.login(values);
-            setAuth(data.token, data.user);
-            toast.success(`Selamat datang, ${data.user.name}!`);
-            navigate(data.user.role === 'admin' ? '/admin' : '/karyawan', { replace: true });
+            await authService.resetPassword({
+                email,
+                token,
+                password: values.password,
+                password_confirmation: values.password_confirmation,
+            });
+            toast.success('Password berhasil direset. Silakan login dengan password baru.');
+            setTimeout(() => navigate('/login'), 2000);
         } catch (err) {
-            const msg = err.response?.data?.message ?? 'Email atau password salah';
+            const msg = err.response?.data?.message ?? 'Terjadi kesalahan. Silakan coba lagi.';
             toast.error(msg);
         }
     };
@@ -46,43 +55,26 @@ export default function LoginPage() {
                 {/* Logo */}
                 <div className="text-center mb-8">
                     <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-[var(--color-primary)] shadow-lg mb-4">
-                        <LogIn size={24} className="text-white" />
+                        <Lock size={24} className="text-white" />
                     </div>
-                    <h1 className="text-2xl font-bold text-[var(--color-text)]">Casir POS</h1>
-                    <p className="text-sm text-[var(--color-text-muted)] mt-1">Masuk ke akun Anda</p>
+                    <h1 className="text-2xl font-bold text-[var(--color-text)]">Reset Password</h1>
+                    <p className="text-sm text-[var(--color-text-muted)] mt-1">
+                        Masukkan password baru Anda
+                    </p>
                 </div>
 
                 {/* Card */}
                 <div className="bg-white rounded-2xl shadow-md border border-[var(--color-border)] p-8">
                     <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
-                        {/* Email */}
-                        <div>
-                            <label className="block text-sm font-medium text-[var(--color-text)] mb-1.5">
-                                Email
-                            </label>
-                            <input
-                                type="email"
-                                autoComplete="email"
-                                placeholder="nama@email.com"
-                                className={`w-full px-4 py-2.5 rounded-xl border text-sm outline-none transition-all duration-200
-                                    focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]
-                                    ${errors.email ? 'border-[var(--color-danger)]' : 'border-[var(--color-border)]'}`}
-                                {...register('email')}
-                            />
-                            {errors.email && (
-                                <p className="text-xs text-[var(--color-danger)] mt-1">{errors.email.message}</p>
-                            )}
-                        </div>
-
                         {/* Password */}
                         <div>
                             <label className="block text-sm font-medium text-[var(--color-text)] mb-1.5">
-                                Password
+                                Password Baru
                             </label>
                             <div className="relative">
                                 <input
                                     type={showPass ? 'text' : 'password'}
-                                    autoComplete="current-password"
+                                    autoComplete="new-password"
                                     placeholder="Minimal 8 karakter"
                                     className={`w-full px-4 py-2.5 pr-11 rounded-xl border text-sm outline-none transition-all duration-200
                                         focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]
@@ -99,17 +91,29 @@ export default function LoginPage() {
                             )}
                         </div>
 
-                        {/* Remember Me */}
-                        <div className="flex items-center gap-2">
-                            <input
-                                id="remember"
-                                type="checkbox"
-                                className="rounded border-[var(--color-border)] text-[var(--color-primary)]"
-                                {...register('remember')}
-                            />
-                            <label htmlFor="remember" className="text-sm text-[var(--color-text-muted)]">
-                                Ingat saya
+                        {/* Password Confirmation */}
+                        <div>
+                            <label className="block text-sm font-medium text-[var(--color-text)] mb-1.5">
+                                Konfirmasi Password
                             </label>
+                            <div className="relative">
+                                <input
+                                    type={showConfirm ? 'text' : 'password'}
+                                    autoComplete="new-password"
+                                    placeholder="Ulangi password"
+                                    className={`w-full px-4 py-2.5 pr-11 rounded-xl border text-sm outline-none transition-all duration-200
+                                        focus:ring-2 focus:ring-[var(--color-primary)]/20 focus:border-[var(--color-primary)]
+                                        ${errors.password_confirmation ? 'border-[var(--color-danger)]' : 'border-[var(--color-border)]'}`}
+                                    {...register('password_confirmation')}
+                                />
+                                <button type="button" onClick={() => setShowConfirm(!showConfirm)}
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-text-muted)] hover:text-[var(--color-text)]">
+                                    {showConfirm ? <EyeOff size={16} /> : <Eye size={16} />}
+                                </button>
+                            </div>
+                            {errors.password_confirmation && (
+                                <p className="text-xs text-[var(--color-danger)] mt-1">{errors.password_confirmation.message}</p>
+                            )}
                         </div>
 
                         {/* Submit */}
@@ -123,21 +127,11 @@ export default function LoginPage() {
                             {isSubmitting ? (
                                 <div className="w-4 h-4 border-2 border-white/40 border-t-white rounded-full animate-spin" />
                             ) : (
-                                <LogIn size={16} />
+                                <Lock size={16} />
                             )}
-                            {isSubmitting ? 'Masuk...' : 'Masuk'}
+                            {isSubmitting ? 'Menyimpan...' : 'Reset Password'}
                         </button>
                     </form>
-
-                    {/* Forgot Password Link */}
-                    <div className="text-center mt-4">
-                        <Link
-                            to="/forgot-password"
-                            className="text-sm text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors"
-                        >
-                            Lupa Password?
-                        </Link>
-                    </div>
                 </div>
 
                 <p className="text-center text-xs text-[var(--color-text-muted)] mt-6">

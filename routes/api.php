@@ -16,9 +16,12 @@ Route::prefix('v1')->group(function () {
 
     // ─── Auth (Public) ────────────────────────────────────────────────
     Route::prefix('auth')->group(function () {
-        Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login']);
-        Route::post('forgot-password', [\App\Http\Controllers\Api\AuthController::class, 'forgotPassword']);
-        Route::post('reset-password', [\App\Http\Controllers\Api\AuthController::class, 'resetPassword']);
+        Route::post('login', [\App\Http\Controllers\Api\AuthController::class, 'login'])
+            ->middleware('throttle:5,1');
+        Route::post('forgot-password', [\App\Http\Controllers\Api\AuthController::class, 'forgotPassword'])
+            ->middleware('throttle:3,1');
+        Route::post('reset-password', [\App\Http\Controllers\Api\AuthController::class, 'resetPassword'])
+            ->middleware('throttle:3,1');
     });
 
     // ─── Authenticated Routes ─────────────────────────────────────────

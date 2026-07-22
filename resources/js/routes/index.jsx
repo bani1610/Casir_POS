@@ -5,6 +5,8 @@ import ProtectedRoute from '@/components/shared/ProtectedRoute';
 import { lazy, Suspense } from 'react';
 
 const LoginPage         = lazy(() => import('@/pages/auth/LoginPage'));
+const ForgotPasswordPage = lazy(() => import('@/pages/auth/ForgotPasswordPage'));
+const ResetPasswordPage = lazy(() => import('@/pages/auth/ResetPasswordPage'));
 const AdminLayout       = lazy(() => import('@/layouts/AdminLayout'));
 const KaryawanLayout    = lazy(() => import('@/layouts/KaryawanLayout'));
 const GuestLayout       = lazy(() => import('@/layouts/GuestLayout'));
@@ -58,6 +60,14 @@ const router = createBrowserRouter([
     {
         path: '/login',
         element: withSuspense(LoginPage),
+    },
+    {
+        path: '/forgot-password',
+        element: withSuspense(ForgotPasswordPage),
+    },
+    {
+        path: '/reset-password',
+        element: withSuspense(ResetPasswordPage),
     },
 
     // Pembeli Self-Order (no auth)
