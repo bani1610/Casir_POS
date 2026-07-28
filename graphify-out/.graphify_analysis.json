@@ -1,0 +1,860 @@
+{
+  "communities": {
+    "0": [
+      "app_dto_orderdto",
+      "app_dto_paginationdto",
+      "app_http_controllers_api_authcontroller",
+      "app_http_controllers_api_authcontroller_authcontroller",
+      "app_http_controllers_api_authcontroller_authcontroller_construct",
+      "app_http_controllers_api_authcontroller_authcontroller_forgotpassword",
+      "app_http_controllers_api_authcontroller_authcontroller_login",
+      "app_http_controllers_api_authcontroller_authcontroller_logout",
+      "app_http_controllers_api_authcontroller_authcontroller_me",
+      "app_http_controllers_api_authcontroller_authcontroller_resetpassword",
+      "app_http_controllers_api_ordercontroller",
+      "app_http_controllers_api_ordercontroller_ordercontroller",
+      "app_http_controllers_api_ordercontroller_ordercontroller_destroy",
+      "app_http_controllers_api_ordercontroller_ordercontroller_index",
+      "app_http_controllers_api_ordercontroller_ordercontroller_show",
+      "app_http_controllers_api_ordercontroller_ordercontroller_store",
+      "app_http_controllers_api_ordercontroller_ordercontroller_update",
+      "app_http_controllers_api_ordercontroller_ordercontroller_updatestatus",
+      "app_http_controllers_api_selfordercontroller",
+      "app_http_controllers_api_selfordercontroller_selfordercontroller",
+      "app_http_controllers_api_selfordercontroller_selfordercontroller_construct",
+      "app_http_controllers_api_selfordercontroller_selfordercontroller_menulist",
+      "app_http_controllers_api_selfordercontroller_selfordercontroller_orderstatus",
+      "app_http_controllers_api_selfordercontroller_selfordercontroller_placeorder",
+      "app_http_controllers_controller",
+      "app_http_controllers_controller_controller",
+      "app_http_middleware_checkrole",
+      "app_http_middleware_checkrole_checkrole",
+      "app_http_middleware_checkrole_checkrole_handle",
+      "app_http_requests_forgotpasswordrequest",
+      "app_http_requests_forgotpasswordrequest_forgotpasswordrequest",
+      "app_http_requests_forgotpasswordrequest_forgotpasswordrequest_authorize",
+      "app_http_requests_forgotpasswordrequest_forgotpasswordrequest_rules",
+      "app_http_requests_loginrequest",
+      "app_http_requests_loginrequest_loginrequest",
+      "app_http_requests_loginrequest_loginrequest_authorize",
+      "app_http_requests_loginrequest_loginrequest_messages",
+      "app_http_requests_loginrequest_loginrequest_rules",
+      "app_http_requests_orderrequest",
+      "app_http_requests_orderrequest_orderrequest",
+      "app_http_requests_orderrequest_orderrequest_authorize",
+      "app_http_requests_orderrequest_orderrequest_messages",
+      "app_http_requests_orderrequest_orderrequest_rules",
+      "app_http_requests_resetpasswordrequest",
+      "app_http_requests_resetpasswordrequest_resetpasswordrequest",
+      "app_http_requests_resetpasswordrequest_resetpasswordrequest_authorize",
+      "app_http_requests_resetpasswordrequest_resetpasswordrequest_rules",
+      "app_http_resources_orderitemresource",
+      "app_http_resources_orderitemresource_orderitemresource",
+      "app_http_resources_orderitemresource_orderitemresource_toarray",
+      "app_http_resources_orderresource",
+      "app_http_resources_orderresource_orderresource",
+      "app_http_resources_orderresource_orderresource_toarray",
+      "app_http_resources_userresource",
+      "app_http_resources_userresource_userresource",
+      "app_http_resources_userresource_userresource_toarray",
+      "closure",
+      "illuminate_foundation_http_formrequest",
+      "illuminate_http_jsonresponse",
+      "illuminate_http_request",
+      "illuminate_http_resources_json_jsonresource",
+      "symfony_component_httpfoundation_response"
+    ],
+    "1": [
+      "app_dto_paginationdto_paginationdto",
+      "app_dto_paginationdto_paginationdto_construct",
+      "app_dto_paginationdto_paginationdto_fromrequest",
+      "app_dto_paginationdto_php_request",
+      "app_dto_paginationdto_php_self",
+      "app_dto_productdto",
+      "app_dto_productdto_php_request",
+      "app_dto_productdto_php_self",
+      "app_dto_productdto_productdto",
+      "app_dto_productdto_productdto_construct",
+      "app_dto_productdto_productdto_fromarray",
+      "app_dto_productdto_productdto_fromrequest",
+      "app_dto_productdto_productdto_toarray",
+      "app_models_product",
+      "app_providers_appserviceprovider",
+      "app_providers_appserviceprovider_appserviceprovider",
+      "app_providers_appserviceprovider_appserviceprovider_boot",
+      "app_providers_appserviceprovider_appserviceprovider_register",
+      "app_repositories_contracts_orderrepositoryinterface_paginate",
+      "app_repositories_contracts_productrepositoryinterface",
+      "app_repositories_contracts_productrepositoryinterface_create",
+      "app_repositories_contracts_productrepositoryinterface_decrementstock",
+      "app_repositories_contracts_productrepositoryinterface_delete",
+      "app_repositories_contracts_productrepositoryinterface_findbyid",
+      "app_repositories_contracts_productrepositoryinterface_findbysku",
+      "app_repositories_contracts_productrepositoryinterface_paginate",
+      "app_repositories_contracts_productrepositoryinterface_update",
+      "app_repositories_orderrepository",
+      "app_repositories_orderrepository_orderrepository_paginate",
+      "app_repositories_productrepository",
+      "app_repositories_productrepository_productrepository",
+      "app_repositories_productrepository_productrepository_construct",
+      "app_repositories_productrepository_productrepository_create",
+      "app_repositories_productrepository_productrepository_decrementstock",
+      "app_repositories_productrepository_productrepository_delete",
+      "app_repositories_productrepository_productrepository_findbyid",
+      "app_repositories_productrepository_productrepository_findbysku",
+      "app_repositories_productrepository_productrepository_paginate",
+      "app_repositories_productrepository_productrepository_update",
+      "app_services_orderservice_orderservice_getpaginated",
+      "app_services_productservice",
+      "app_services_productservice_productservice",
+      "app_services_productservice_productservice_construct",
+      "app_services_productservice_productservice_create",
+      "app_services_productservice_productservice_delete",
+      "app_services_productservice_productservice_getbyid",
+      "app_services_productservice_productservice_getpaginated",
+      "app_services_productservice_productservice_reducestockforsale",
+      "app_services_productservice_productservice_update",
+      "bootstrap_providers",
+      "illuminate_contracts_pagination_lengthawarepaginator",
+      "illuminate_support_serviceprovider"
+    ],
+    "2": [
+      "app_models_auditlog_auditlog",
+      "app_models_auditlog_auditlog_record",
+      "app_models_auditlog_auditlog_scopeevent",
+      "app_models_auditlog_auditlog_scopeformodel",
+      "app_models_auditlog_php_static",
+      "app_models_user",
+      "app_models_user_user",
+      "app_models_user_user_auditlogs",
+      "app_models_user_user_casts",
+      "app_models_user_user_isactive",
+      "app_models_user_user_isadmin",
+      "app_models_user_user_iskaryawan",
+      "app_models_user_user_orders",
+      "app_models_user_user_scopeactive",
+      "app_models_user_user_scopeadmin",
+      "app_models_user_user_scopekaryawan",
+      "app_services_authservice",
+      "app_services_authservice_authservice",
+      "app_services_authservice_authservice_forgotpassword",
+      "app_services_authservice_authservice_login",
+      "app_services_authservice_authservice_logout",
+      "app_services_authservice_authservice_me",
+      "app_services_authservice_authservice_resetpassword",
+      "config_auth",
+      "illuminate_foundation_auth_user",
+      "illuminate_foundation_testing_refreshdatabase",
+      "illuminate_foundation_testing_testcase",
+      "illuminate_notifications_notifiable",
+      "laravel_sanctum_hasapitokens",
+      "tests_feature_authenticationtest",
+      "tests_feature_authenticationtest_authenticationtest",
+      "tests_feature_authenticationtest_authenticationtest_setup",
+      "tests_feature_authenticationtest_authenticationtest_test_authenticated_user_can_get_their_profile",
+      "tests_feature_authenticationtest_authenticationtest_test_forgot_password_fails_for_non_existent_email",
+      "tests_feature_authenticationtest_authenticationtest_test_login_fails_for_inactive_user",
+      "tests_feature_authenticationtest_authenticationtest_test_login_fails_with_invalid_password",
+      "tests_feature_authenticationtest_authenticationtest_test_login_fails_with_short_password",
+      "tests_feature_authenticationtest_authenticationtest_test_login_is_rate_limited_after_five_attempts",
+      "tests_feature_authenticationtest_authenticationtest_test_reset_password_fails_with_expired_token",
+      "tests_feature_authenticationtest_authenticationtest_test_reset_password_fails_with_invalid_token",
+      "tests_feature_authenticationtest_authenticationtest_test_reset_password_fails_with_short_password",
+      "tests_feature_authenticationtest_authenticationtest_test_user_can_login_with_valid_credentials",
+      "tests_feature_authenticationtest_authenticationtest_test_user_can_logout",
+      "tests_feature_authenticationtest_authenticationtest_test_user_can_request_password_reset",
+      "tests_feature_authenticationtest_authenticationtest_test_user_can_reset_password_with_valid_token",
+      "tests_feature_exampletest",
+      "tests_feature_exampletest_exampletest",
+      "tests_feature_exampletest_exampletest_test_the_application_returns_a_successful_response",
+      "tests_testcase",
+      "tests_testcase_testcase"
+    ],
+    "3": [
+      "app_models_auditlog",
+      "app_models_auditlog_auditlog_user",
+      "app_models_category",
+      "app_models_category_category",
+      "app_models_category_category_availablemenus",
+      "app_models_category_category_menus",
+      "app_models_category_category_scopeactive",
+      "app_models_menu",
+      "app_models_menu_menu",
+      "app_models_menu_menu_category",
+      "app_models_menu_menu_getimageurlattribute",
+      "app_models_menu_menu_orderitems",
+      "app_models_menu_menu_scopeavailable",
+      "app_models_order",
+      "app_models_order_order_paymentmethod",
+      "app_models_order_order_user",
+      "app_models_orderitem",
+      "app_models_orderitem_orderitem",
+      "app_models_orderitem_orderitem_calculatesubtotal",
+      "app_models_orderitem_orderitem_menu",
+      "app_models_orderitem_orderitem_order",
+      "app_models_orderitem_php_static",
+      "app_models_paymentmethod",
+      "app_models_paymentmethod_paymentmethod",
+      "app_models_paymentmethod_paymentmethod_orders",
+      "app_models_paymentmethod_paymentmethod_scopeactive",
+      "database_factories_menufactory",
+      "database_seeders_categoryseeder",
+      "database_seeders_categoryseeder_categoryseeder",
+      "database_seeders_categoryseeder_categoryseeder_run",
+      "database_seeders_databaseseeder",
+      "database_seeders_databaseseeder_databaseseeder",
+      "database_seeders_databaseseeder_databaseseeder_run",
+      "database_seeders_menuseeder",
+      "database_seeders_menuseeder_menuseeder",
+      "database_seeders_menuseeder_menuseeder_run",
+      "database_seeders_paymentmethodseeder",
+      "database_seeders_paymentmethodseeder_paymentmethodseeder",
+      "database_seeders_paymentmethodseeder_paymentmethodseeder_run",
+      "database_seeders_userseeder",
+      "database_seeders_userseeder_userseeder",
+      "database_seeders_userseeder_userseeder_run",
+      "illuminate_database_eloquent_factories_hasfactory",
+      "illuminate_database_eloquent_model",
+      "illuminate_database_eloquent_relations_belongsto",
+      "illuminate_database_eloquent_relations_hasmany",
+      "illuminate_database_eloquent_softdeletes",
+      "illuminate_database_seeder"
+    ],
+    "4": [
+      "app_dto_orderdto_orderdto",
+      "app_dto_orderdto_orderdto_construct",
+      "app_dto_orderdto_orderdto_fromarray",
+      "app_dto_orderdto_orderdto_fromrequest",
+      "app_dto_orderdto_orderdto_toarray",
+      "app_dto_orderdto_php_request",
+      "app_dto_orderdto_php_self",
+      "app_http_controllers_api_ordercontroller_ordercontroller_construct",
+      "app_models_order_order",
+      "app_models_order_order_isselforder",
+      "app_models_order_order_orderitems",
+      "app_models_order_order_recalculatetotal",
+      "app_models_order_order_scopeactive",
+      "app_models_order_order_scopepending",
+      "app_models_order_order_scopetoday",
+      "app_repositories_contracts_orderrepositoryinterface",
+      "app_repositories_contracts_orderrepositoryinterface_create",
+      "app_repositories_contracts_orderrepositoryinterface_delete",
+      "app_repositories_contracts_orderrepositoryinterface_findbycustomeridentifier",
+      "app_repositories_contracts_orderrepositoryinterface_findbyid",
+      "app_repositories_contracts_orderrepositoryinterface_syncitems",
+      "app_repositories_contracts_orderrepositoryinterface_update",
+      "app_repositories_contracts_orderrepositoryinterface_updatestatus",
+      "app_repositories_orderrepository_orderrepository",
+      "app_repositories_orderrepository_orderrepository_construct",
+      "app_repositories_orderrepository_orderrepository_create",
+      "app_repositories_orderrepository_orderrepository_delete",
+      "app_repositories_orderrepository_orderrepository_findbycustomeridentifier",
+      "app_repositories_orderrepository_orderrepository_findbyid",
+      "app_repositories_orderrepository_orderrepository_orderdata",
+      "app_repositories_orderrepository_orderrepository_syncitems",
+      "app_repositories_orderrepository_orderrepository_update",
+      "app_repositories_orderrepository_orderrepository_updatestatus",
+      "app_services_orderservice",
+      "app_services_orderservice_orderservice",
+      "app_services_orderservice_orderservice_construct",
+      "app_services_orderservice_orderservice_create",
+      "app_services_orderservice_orderservice_delete",
+      "app_services_orderservice_orderservice_getbyid",
+      "app_services_orderservice_orderservice_getselfordersbycustomeridentifier",
+      "app_services_orderservice_orderservice_update",
+      "app_services_orderservice_orderservice_updatestatus",
+      "app_services_orderservice_orderservice_validateandcalculateitems",
+      "illuminate_support_collection"
+    ],
+    "5": [
+      "composer",
+      "composer_allow_plugins_pestphp_pest_plugin",
+      "composer_allow_plugins_php_http_discovery",
+      "composer_autoload",
+      "composer_autoload_dev",
+      "composer_autoload_dev_psr_4",
+      "composer_autoload_psr_4",
+      "composer_config",
+      "composer_config_allow_plugins",
+      "composer_config_optimize_autoloader",
+      "composer_config_preferred_install",
+      "composer_config_sort_packages",
+      "composer_description",
+      "composer_extra",
+      "composer_extra_laravel",
+      "composer_keywords",
+      "composer_laravel_dont_discover",
+      "composer_license",
+      "composer_minimum_stability",
+      "composer_name",
+      "composer_prefer_stable",
+      "composer_psr_4_app",
+      "composer_psr_4_database_factories",
+      "composer_psr_4_database_seeders",
+      "composer_psr_4_tests",
+      "composer_require",
+      "composer_require_dev",
+      "composer_require_dev_fakerphp_faker",
+      "composer_require_dev_laravel_pail",
+      "composer_require_dev_laravel_pao",
+      "composer_require_dev_laravel_pint",
+      "composer_require_dev_mockery_mockery",
+      "composer_require_dev_nunomaduro_collision",
+      "composer_require_dev_phpunit_phpunit",
+      "composer_require_laravel_framework",
+      "composer_require_laravel_sanctum",
+      "composer_require_laravel_tinker",
+      "composer_require_php",
+      "composer_schema",
+      "composer_type",
+      "ref_framework",
+      "ref_laravel"
+    ],
+    "6": [
+      "composer_scripts",
+      "composer_scripts_dev",
+      "composer_scripts_post_autoload_dump",
+      "composer_scripts_post_create_project_cmd",
+      "composer_scripts_post_root_package_install",
+      "composer_scripts_post_update_cmd",
+      "composer_scripts_pre_package_uninstall",
+      "composer_scripts_setup",
+      "composer_scripts_test",
+      "ref_composer_config_disableprocesstimeout",
+      "ref_composer_install",
+      "ref_illuminate_foundation_composerscripts_postautoloaddump",
+      "ref_illuminate_foundation_composerscripts_prepackageuninstall",
+      "ref_npm_install_ignore_scripts",
+      "ref_npm_run_build",
+      "ref_npx_concurrently_c_93c5fd_c4b5fd_fb7185_fdba74_php_artisan_serve_php_artisan_queue_listen_tries_1_timeout_0_php_artisan_pail_timeout_0_npm_run_dev_names_server_queue_logs_vite_kill_others",
+      "ref_php_artisan_config_clear_ansi_no_additional_args",
+      "ref_php_artisan_key_generate",
+      "ref_php_artisan_key_generate_ansi",
+      "ref_php_artisan_migrate_force",
+      "ref_php_artisan_migrate_graceful_ansi",
+      "ref_php_artisan_package_discover_ansi",
+      "ref_php_artisan_test",
+      "ref_php_artisan_vendor_publish_tag_laravel_assets_ansi_force",
+      "ref_php_r_file_exists_database_database_sqlite_touch_database_database_sqlite",
+      "ref_php_r_file_exists_env_copy_env_example_env"
+    ],
+    "7": [
+      "resources_js_routes_index",
+      "resources_js_routes_index_admindashboard",
+      "resources_js_routes_index_adminlayout",
+      "resources_js_routes_index_auditlogpage",
+      "resources_js_routes_index_cartpage",
+      "resources_js_routes_index_categorypage",
+      "resources_js_routes_index_checkoutpage",
+      "resources_js_routes_index_createorderpage",
+      "resources_js_routes_index_forgotpasswordpage",
+      "resources_js_routes_index_guestlayout",
+      "resources_js_routes_index_karyawandashboard",
+      "resources_js_routes_index_karyawanlayout",
+      "resources_js_routes_index_karyawanpage",
+      "resources_js_routes_index_laporanpage",
+      "resources_js_routes_index_loginpage",
+      "resources_js_routes_index_menubrowserpage",
+      "resources_js_routes_index_menupage",
+      "resources_js_routes_index_notfoundpage",
+      "resources_js_routes_index_orderlistpage",
+      "resources_js_routes_index_orderstatuspage",
+      "resources_js_routes_index_pageloader",
+      "resources_js_routes_index_resetpasswordpage",
+      "resources_js_routes_index_rootredirect",
+      "resources_js_routes_index_router",
+      "resources_js_routes_index_unauthorizedpage",
+      "resources_js_routes_index_withsuspense"
+    ],
+    "8": [
+      "axios",
+      "dayjs",
+      "hookform_resolvers",
+      "lucide_react",
+      "package_dependencies",
+      "package_dependencies_axios",
+      "package_dependencies_dayjs",
+      "package_dependencies_hookform_resolvers",
+      "package_dependencies_lucide_react",
+      "package_dependencies_react",
+      "package_dependencies_react_dom",
+      "package_dependencies_react_hook_form",
+      "package_dependencies_react_router_dom",
+      "package_dependencies_sonner",
+      "package_dependencies_vitejs_plugin_react",
+      "package_dependencies_zod",
+      "package_dependencies_zustand",
+      "react",
+      "react_dom",
+      "react_hook_form",
+      "react_router_dom",
+      "sonner",
+      "vitejs_plugin_react",
+      "zod",
+      "zustand"
+    ],
+    "9": [
+      "concurrently",
+      "laravel_vite_plugin",
+      "package",
+      "package_devdependencies",
+      "package_devdependencies_concurrently",
+      "package_devdependencies_laravel_vite_plugin",
+      "package_devdependencies_tailwindcss",
+      "package_devdependencies_tailwindcss_vite",
+      "package_devdependencies_vite",
+      "package_private",
+      "package_schema",
+      "package_scripts",
+      "package_scripts_build",
+      "package_scripts_dev",
+      "package_type",
+      "tailwindcss",
+      "tailwindcss_vite",
+      "vite"
+    ],
+    "10": [
+      "database_factories_menufactory_menufactory",
+      "database_factories_menufactory_menufactory_available",
+      "database_factories_menufactory_menufactory_definition",
+      "database_factories_menufactory_menufactory_deleted",
+      "database_factories_menufactory_menufactory_unavailable",
+      "database_factories_menufactory_php_static",
+      "database_factories_userfactory",
+      "database_factories_userfactory_php_static",
+      "database_factories_userfactory_userfactory",
+      "database_factories_userfactory_userfactory_definition",
+      "database_factories_userfactory_userfactory_unverified",
+      "illuminate_database_eloquent_factories_factory"
+    ],
+    "11": [
+      "app_dto_orderitemdto",
+      "app_dto_orderitemdto_orderitemdto",
+      "app_dto_orderitemdto_orderitemdto_calculatesubtotal",
+      "app_dto_orderitemdto_orderitemdto_construct",
+      "app_dto_orderitemdto_orderitemdto_fromarray",
+      "app_dto_orderitemdto_orderitemdto_toarray",
+      "app_dto_orderitemdto_php_self"
+    ],
+    "12": [
+      "phpunit_framework_testcase",
+      "tests_unit_exampletest",
+      "tests_unit_exampletest_exampletest",
+      "tests_unit_exampletest_exampletest_test_that_true_is_true"
+    ],
+    "13": [
+      "database_migrations_0001_01_01_000000_create_users_table",
+      "database_migrations_0001_01_01_000000_create_users_table_down",
+      "database_migrations_0001_01_01_000000_create_users_table_up"
+    ],
+    "14": [
+      "database_migrations_0001_01_01_000001_create_cache_table",
+      "database_migrations_0001_01_01_000001_create_cache_table_down",
+      "database_migrations_0001_01_01_000001_create_cache_table_up"
+    ],
+    "15": [
+      "database_migrations_0001_01_01_000002_create_jobs_table",
+      "database_migrations_0001_01_01_000002_create_jobs_table_down",
+      "database_migrations_0001_01_01_000002_create_jobs_table_up"
+    ],
+    "16": [
+      "database_migrations_2026_07_04_000001_create_categories_table",
+      "database_migrations_2026_07_04_000001_create_categories_table_down",
+      "database_migrations_2026_07_04_000001_create_categories_table_up"
+    ],
+    "17": [
+      "database_migrations_2026_07_04_000002_create_menus_table",
+      "database_migrations_2026_07_04_000002_create_menus_table_down",
+      "database_migrations_2026_07_04_000002_create_menus_table_up"
+    ],
+    "18": [
+      "database_migrations_2026_07_04_000003_create_payment_methods_table",
+      "database_migrations_2026_07_04_000003_create_payment_methods_table_down",
+      "database_migrations_2026_07_04_000003_create_payment_methods_table_up"
+    ],
+    "19": [
+      "database_migrations_2026_07_04_000004_create_orders_table",
+      "database_migrations_2026_07_04_000004_create_orders_table_down",
+      "database_migrations_2026_07_04_000004_create_orders_table_up"
+    ],
+    "20": [
+      "database_migrations_2026_07_04_000005_create_order_items_table",
+      "database_migrations_2026_07_04_000005_create_order_items_table_down",
+      "database_migrations_2026_07_04_000005_create_order_items_table_up"
+    ],
+    "21": [
+      "database_migrations_2026_07_04_000006_create_audit_logs_table",
+      "database_migrations_2026_07_04_000006_create_audit_logs_table_down",
+      "database_migrations_2026_07_04_000006_create_audit_logs_table_up"
+    ],
+    "22": [
+      "database_migrations_2026_07_15_074221_create_personal_access_tokens_table",
+      "database_migrations_2026_07_15_074221_create_personal_access_tokens_table_down",
+      "database_migrations_2026_07_15_074221_create_personal_access_tokens_table_up"
+    ],
+    "23": [
+      "mcp",
+      "mcp_command_codegraph",
+      "mcp_mcp_server_codegraph"
+    ],
+    "24": [
+      "resources_js_layouts_adminlayout",
+      "resources_js_layouts_adminlayout_adminlayout",
+      "resources_js_layouts_adminlayout_navitems"
+    ],
+    "25": [
+      "resources_js_layouts_karyawanlayout",
+      "resources_js_layouts_karyawanlayout_karyawanlayout",
+      "resources_js_layouts_karyawanlayout_navitems"
+    ],
+    "26": [
+      "resources_js_pages_auth_forgotpasswordpage",
+      "resources_js_pages_auth_forgotpasswordpage_forgotpasswordpage",
+      "resources_js_pages_auth_forgotpasswordpage_schema"
+    ],
+    "27": [
+      "resources_js_pages_auth_loginpage",
+      "resources_js_pages_auth_loginpage_loginpage",
+      "resources_js_pages_auth_loginpage_schema"
+    ],
+    "28": [
+      "resources_js_pages_auth_resetpasswordpage",
+      "resources_js_pages_auth_resetpasswordpage_resetpasswordpage",
+      "resources_js_pages_auth_resetpasswordpage_schema"
+    ],
+    "29": [
+      "artisan",
+      "routes_console"
+    ],
+    "30": [
+      "resources_js_components_shared_protectedroute",
+      "resources_js_components_shared_protectedroute_protectedroute"
+    ],
+    "31": [
+      "resources_js_layouts_guestlayout",
+      "resources_js_layouts_guestlayout_guestlayout"
+    ],
+    "32": [
+      "resources_js_lib_axios",
+      "resources_js_lib_axios_api"
+    ],
+    "33": [
+      "resources_js_pages_admin_auditlogpage",
+      "resources_js_pages_admin_auditlogpage_auditlogpage"
+    ],
+    "34": [
+      "resources_js_pages_admin_categorypage",
+      "resources_js_pages_admin_categorypage_categorypage"
+    ],
+    "35": [
+      "resources_js_pages_admin_dashboardpage",
+      "resources_js_pages_admin_dashboardpage_admindashboardpage"
+    ],
+    "36": [
+      "resources_js_pages_admin_karyawanpage",
+      "resources_js_pages_admin_karyawanpage_karyawanpage"
+    ],
+    "37": [
+      "resources_js_pages_admin_laporanpage",
+      "resources_js_pages_admin_laporanpage_laporanpage"
+    ],
+    "38": [
+      "resources_js_pages_admin_menupage",
+      "resources_js_pages_admin_menupage_menupage"
+    ],
+    "39": [
+      "resources_js_pages_karyawan_createorderpage",
+      "resources_js_pages_karyawan_createorderpage_createorderpage"
+    ],
+    "40": [
+      "resources_js_pages_karyawan_dashboardpage",
+      "resources_js_pages_karyawan_dashboardpage_karyawandashboard"
+    ],
+    "41": [
+      "resources_js_pages_karyawan_orderlistpage",
+      "resources_js_pages_karyawan_orderlistpage_orderlistpage"
+    ],
+    "42": [
+      "resources_js_pages_notfoundpage",
+      "resources_js_pages_notfoundpage_notfoundpage"
+    ],
+    "43": [
+      "resources_js_pages_pembeli_cartpage",
+      "resources_js_pages_pembeli_cartpage_cartpage"
+    ],
+    "44": [
+      "resources_js_pages_pembeli_checkoutpage",
+      "resources_js_pages_pembeli_checkoutpage_checkoutpage"
+    ],
+    "45": [
+      "resources_js_pages_pembeli_menubrowserpage",
+      "resources_js_pages_pembeli_menubrowserpage_menubrowserpage"
+    ],
+    "46": [
+      "resources_js_pages_pembeli_orderstatuspage",
+      "resources_js_pages_pembeli_orderstatuspage_orderstatuspage"
+    ],
+    "47": [
+      "resources_js_pages_rootredirect",
+      "resources_js_pages_rootredirect_rootredirect"
+    ],
+    "48": [
+      "resources_js_pages_unauthorizedpage",
+      "resources_js_pages_unauthorizedpage_unauthorizedpage"
+    ],
+    "49": [
+      "resources_js_services_authservice",
+      "resources_js_services_authservice_authservice"
+    ],
+    "50": [
+      "resources_js_stores_authstore",
+      "resources_js_stores_authstore_useauthstore"
+    ],
+    "51": [
+      "bootstrap_app"
+    ],
+    "52": [
+      "config_app"
+    ],
+    "53": [
+      "config_cache"
+    ],
+    "54": [
+      "config_cors"
+    ],
+    "55": [
+      "config_database"
+    ],
+    "56": [
+      "config_filesystems"
+    ],
+    "57": [
+      "config_logging"
+    ],
+    "58": [
+      "config_mail"
+    ],
+    "59": [
+      "config_queue"
+    ],
+    "60": [
+      "config_sanctum"
+    ],
+    "61": [
+      "config_services"
+    ],
+    "62": [
+      "config_session"
+    ],
+    "63": [
+      "public_index"
+    ],
+    "64": [
+      "resources_js_app"
+    ],
+    "65": [
+      "resources_js_main"
+    ],
+    "66": [
+      "resources_views_app_blade"
+    ],
+    "67": [
+      "resources_views_welcome_blade"
+    ],
+    "68": [
+      "routes_api"
+    ],
+    "69": [
+      "routes_web"
+    ],
+    "70": [
+      "vite_config"
+    ]
+  },
+  "cohesion": {
+    "0": 0.06240084611316764,
+    "1": 0.07390648567119155,
+    "2": 0.05142857142857143,
+    "3": 0.07712765957446809,
+    "4": 0.09302325581395349,
+    "5": 0.047619047619047616,
+    "6": 0.08,
+    "7": 0.07692307692307693,
+    "8": 0.08,
+    "9": 0.1111111111111111,
+    "10": 0.22727272727272727,
+    "11": 0.2857142857142857,
+    "12": 0.6666666666666666,
+    "13": 0.6666666666666666,
+    "14": 0.6666666666666666,
+    "15": 0.6666666666666666,
+    "16": 0.6666666666666666,
+    "17": 0.6666666666666666,
+    "18": 0.6666666666666666,
+    "19": 0.6666666666666666,
+    "20": 0.6666666666666666,
+    "21": 0.6666666666666666,
+    "22": 0.6666666666666666,
+    "23": 0.6666666666666666,
+    "24": 0.6666666666666666,
+    "25": 0.6666666666666666,
+    "26": 0.6666666666666666,
+    "27": 0.6666666666666666,
+    "28": 0.6666666666666666,
+    "29": 1.0,
+    "30": 1.0,
+    "31": 1.0,
+    "32": 1.0,
+    "33": 1.0,
+    "34": 1.0,
+    "35": 1.0,
+    "36": 1.0,
+    "37": 1.0,
+    "38": 1.0,
+    "39": 1.0,
+    "40": 1.0,
+    "41": 1.0,
+    "42": 1.0,
+    "43": 1.0,
+    "44": 1.0,
+    "45": 1.0,
+    "46": 1.0,
+    "47": 1.0,
+    "48": 1.0,
+    "49": 1.0,
+    "50": 1.0,
+    "51": 1.0,
+    "52": 1.0,
+    "53": 1.0,
+    "54": 1.0,
+    "55": 1.0,
+    "56": 1.0,
+    "57": 1.0,
+    "58": 1.0,
+    "59": 1.0,
+    "60": 1.0,
+    "61": 1.0,
+    "62": 1.0,
+    "63": 1.0,
+    "64": 1.0,
+    "65": 1.0,
+    "66": 1.0,
+    "67": 1.0,
+    "68": 1.0,
+    "69": 1.0,
+    "70": 1.0
+  },
+  "gods": [
+    {
+      "id": "app_models_order_order",
+      "label": "Order",
+      "degree": 31
+    },
+    {
+      "id": "app_models_user_user",
+      "label": "User",
+      "degree": 25
+    },
+    {
+      "id": "app_dto_orderdto_orderdto",
+      "label": "OrderDTO",
+      "degree": 18
+    },
+    {
+      "id": "tests_feature_authenticationtest_authenticationtest",
+      "label": "AuthenticationTest",
+      "degree": 18
+    },
+    {
+      "id": "app_services_orderservice_orderservice",
+      "label": "OrderService",
+      "degree": 17
+    },
+    {
+      "id": "app_dto_paginationdto_paginationdto",
+      "label": "PaginationDTO",
+      "degree": 16
+    },
+    {
+      "id": "app_dto_productdto_productdto",
+      "label": "ProductDTO",
+      "degree": 14
+    },
+    {
+      "id": "app_repositories_orderrepository_orderrepository",
+      "label": "OrderRepository",
+      "degree": 13
+    },
+    {
+      "id": "app_models_menu_menu",
+      "label": "Menu",
+      "degree": 11
+    },
+    {
+      "id": "app_repositories_productrepository_productrepository",
+      "label": "ProductRepository",
+      "degree": 11
+    }
+  ],
+  "surprises": [
+    {
+      "source": "AuthenticationTest",
+      "target": "User",
+      "source_files": [
+        "tests/Feature/AuthenticationTest.php",
+        "app/Models/User.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "connects across different repos/directories"
+    },
+    {
+      "source": "AuthController",
+      "target": "AuthService",
+      "source_files": [
+        "app/Http/Controllers/Api/AuthController.php",
+        "app/Services/AuthService.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "OrderController",
+      "target": "OrderService",
+      "source_files": [
+        "app/Http/Controllers/Api/OrderController.php",
+        "app/Services/OrderService.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "SelfOrderController",
+      "target": "OrderService",
+      "source_files": [
+        "app/Http/Controllers/Api/SelfOrderController.php",
+        "app/Services/OrderService.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "findById()",
+      "target": "Order",
+      "source_files": [
+        "app/Repositories/Contracts/OrderRepositoryInterface.php",
+        "app/Models/Order.php"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "references",
+      "why": "peripheral node `findById()` unexpectedly reaches hub `Order`"
+    }
+  ],
+  "tokens": {
+    "input": 0,
+    "output": 0
+  }
+}
