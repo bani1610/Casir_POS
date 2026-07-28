@@ -5,21 +5,20 @@ namespace App\Http\Controllers\Api;
 use App\DTO\OrderDTO;
 use App\DTO\PaginationDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\OrderRequest;
-use App\Http\Requests\Api\UpdateOrderStatusRequest;
+use App\Http\Requests\OrderRequest;
 use App\Http\Resources\OrderResource;
 use App\Models\Order;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 
 class OrderController extends Controller
 {
     public function __construct(protected OrderService $service) {}
 
     /**
-     * GET /api/v1/orders
-     * Daftar order dengan pagination, filter status, tanggal, dsb.
+     * Display a paginated listing of orders.
      */
     public function index(Request $request): JsonResponse
     {
@@ -38,37 +37,36 @@ class OrderController extends Controller
 
         return response()->json([
             'message' => 'Data order berhasil diambil.',
-            'data'    => OrderResource::collection($orders->items()),
-            'meta'    => [
+            'data' => OrderResource::collection($orders->items()),
+            'meta' => [
                 'current_page' => $orders->currentPage(),
-                'last_page'    => $orders->lastPage(),
-                'per_page'     => $orders->perPage(),
-                'total'        => $orders->total(),
+                'last_page' => $orders->lastPage(),
+                'per_page' => $orders->perPage(),
+                'total' => $orders->total(),
             ],
         ]);
     }
 
     /**
-     * GET /api/v1/orders/{order}
-     * Detail satu order beserta items dan relasi lainnya.
+     * Display the specified order.
      */
-    public function show(int $order): JsonResponse
+    public function show(int $id): JsonResponse
     {
+        $order = $this->service->getById($id);
+
         return response()->json([
             'message' => 'Detail order berhasil diambil.',
-            'data'    => new OrderResource($this->service->getById($order)),
+            'data' => new OrderResource($order),
         ]);
     }
 
     /**
-     * POST /api/v1/orders
-     * Buat order baru (oleh karyawan/admin).
+     * Store a newly created order.
      */
     public function store(OrderRequest $request): JsonResponse
     {
         $payload = $request->validated();
 
-        // Karyawan/admin yang login otomatis jadi creator order
         if ($request->user()) {
             $payload['user_id'] = $request->user()->id;
         }
@@ -77,15 +75,14 @@ class OrderController extends Controller
 
         return response()->json([
             'message' => 'Order berhasil dibuat.',
-            'data'    => new OrderResource($order),
+            'data' => new OrderResource($order),
         ], 201);
     }
 
     /**
-     * PUT/PATCH /api/v1/orders/{order}
-     * Update order (items, payment, catatan).
+     * Update the specified order.
      */
-    public function update(OrderRequest $request, int $order): JsonResponse
+    public function update(OrderRequest $request, int $id): JsonResponse
     {
         $payload = $request->validated();
 
@@ -93,21 +90,20 @@ class OrderController extends Controller
             $payload['user_id'] = $request->user()->id;
         }
 
+        $order = $this->service->update($id, OrderDTO::fromArray($payload));
+
         return response()->json([
             'message' => 'Order berhasil diperbarui.',
-            'data'    => new OrderResource(
-                $this->service->update($order, OrderDTO::fromArray($payload))
-            ),
+            'data' => new OrderResource($order),
         ]);
     }
 
     /**
-     * DELETE /api/v1/orders/{order}
-     * Hapus order (hanya status pending/cancelled).
+     * Remove the specified order.
      */
-    public function destroy(int $order): JsonResponse
+    public function destroy(int $id): JsonResponse
     {
-        $this->service->delete($order);
+        $this->service->delete($id);
 
         return response()->json([
             'message' => 'Order berhasil dihapus.',
@@ -115,18 +111,19 @@ class OrderController extends Controller
     }
 
     /**
-     * PATCH /api/v1/orders/{order}/status
-     * Update status order (pending → processing → done | cancelled).
+     * Update order status.
      */
-    public function updateStatus(
-        UpdateOrderStatusRequest $request,
-        int $order
-    ): JsonResponse {
-        $updated = $this->service->updateStatus($order, $request->validated('status'));
+    public function updateStatus(Request $request, int $id): JsonResponse
+    {
+        $validated = $request->validate([
+            'status' => ['required', 'string', Rule::in(Order::STATUSES)],
+        ]);
+
+        $order = $this->service->updateStatus($id, $validated['status']);
 
         return response()->json([
             'message' => 'Status order berhasil diperbarui.',
-            'data'    => new OrderResource($updated),
+            'data' => new OrderResource($order),
         ]);
     }
 }

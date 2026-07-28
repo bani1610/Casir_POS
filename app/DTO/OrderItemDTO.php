@@ -24,24 +24,24 @@ class OrderItemDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            id:           $data['id'] ?? null,
-            menuId:       (int) ($data['menu_id'] ?? 0),
-            menuName:     $data['menu_name'] ?? '',
-            quantity:     (int) ($data['quantity'] ?? 1),
+            id: $data['id'] ?? null,
+            menuId: (int) ($data['menu_id'] ?? 0),
+            menuName: $data['menu_name'] ?? '',
+            quantity: (int) ($data['quantity'] ?? 1),
             priceAtOrder: (float) ($data['price_at_order'] ?? 0),
-            subtotal:     (float) ($data['subtotal'] ?? 0),
+            subtotal: (float) ($data['subtotal'] ?? 0),
         );
     }
 
     public function toArray(): array
     {
         return [
-            'id'            => $this->id,
-            'menu_id'       => $this->menuId,
-            'menu_name'     => $this->menuName,
-            'quantity'      => $this->quantity,
-            'price_at_order'=> $this->priceAtOrder,
-            'subtotal'      => $this->subtotal,
+            'id' => $this->id,
+            'menu_id' => $this->menuId,
+            'menu_name' => $this->menuName,
+            'quantity' => $this->quantity,
+            'price_at_order' => $this->priceAtOrder,
+            'subtotal' => $this->subtotal,
         ];
     }
 

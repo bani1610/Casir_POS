@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\DTO\OrderDTO;
-use App\DTO\OrderItemDTO;
 use App\DTO\PaginationDTO;
 use App\Models\Menu;
 use App\Models\Order;
@@ -14,14 +13,10 @@ use Illuminate\Validation\ValidationException;
 
 class OrderService
 {
-    public function __construct(
-        protected OrderRepositoryInterface $repository
-    ) {}
+    public function __construct(protected OrderRepositoryInterface $repository) {}
 
-    public function getPaginated(
-        PaginationDTO $pagination,
-        array $filters = []
-    ): LengthAwarePaginator {
+    public function getPaginated(PaginationDTO $pagination, array $filters = []): LengthAwarePaginator
+    {
         return $this->repository->paginate($pagination, $filters);
     }
 
@@ -38,72 +33,67 @@ class OrderService
         return $order;
     }
 
-    /**
-     * Self-order pembeli: temukan order berdasarkan customer_identifier (24 jam).
-     */
-    public function getByCustomerIdentifier(string $customerIdentifier): Collection
+    public function getSelfOrdersByCustomerIdentifier(string $customerIdentifier): Collection
     {
         return $this->repository->findByCustomerIdentifier($customerIdentifier);
     }
 
-    /**
-     * Buat order baru (oleh karyawan/admin).
-     * Harga & subtotal diambil langsung dari data Menu (snapshot).
-     */
     public function create(OrderDTO $dto): Order
     {
-        $items      = $this->resolveItems($dto->items);
-        $totalPrice = collect($items)->sum('subtotal');
+        $calculatedItems = $this->validateAndCalculateItems($dto->items);
+        $totalPrice = collect($calculatedItems)->sum('subtotal');
 
-        $dto = new OrderDTO(
-            id:                 $dto->id,
-            userId:             $dto->userId,
-            paymentMethodId:    $dto->paymentMethodId,
-            tableNumber:        $dto->tableNumber,
+        $orderData = new OrderDTO(
+            userId: $dto->userId,
+            paymentMethodId: $dto->paymentMethodId,
+            tableNumber: $dto->tableNumber,
             customerIdentifier: $dto->customerIdentifier,
-            status:             $dto->status ?? Order::STATUS_PENDING,
-            totalPrice:         $totalPrice,
-            notes:              $dto->notes,
-            items:              $items,
+            status: $dto->status ?? Order::STATUS_PENDING,
+            totalPrice: $totalPrice,
+            notes: $dto->notes,
+            items: $calculatedItems,
         );
 
-        return $this->repository->create($dto);
+        return $this->repository->create($orderData);
     }
 
-    /**
-     * Update order yang sudah ada.
-     * Recalculate total dari items baru.
-     */
     public function update(int $id, OrderDTO $dto): Order
     {
         $this->getById($id);
 
-        $items      = $this->resolveItems($dto->items);
-        $totalPrice = collect($items)->sum('subtotal');
+        $calculatedItems = $this->validateAndCalculateItems($dto->items);
+        $totalPrice = collect($calculatedItems)->sum('subtotal');
 
-        $dto = new OrderDTO(
-            id:                 $id,
-            userId:             $dto->userId,
-            paymentMethodId:    $dto->paymentMethodId,
-            tableNumber:        $dto->tableNumber,
+        $orderData = new OrderDTO(
+            id: $id,
+            userId: $dto->userId,
+            paymentMethodId: $dto->paymentMethodId,
+            tableNumber: $dto->tableNumber,
             customerIdentifier: $dto->customerIdentifier,
-            status:             $dto->status,
-            totalPrice:         $totalPrice,
-            notes:              $dto->notes,
-            items:              $items,
+            status: $dto->status,
+            totalPrice: $totalPrice,
+            notes: $dto->notes,
+            items: $calculatedItems,
         );
 
-        return $this->repository->update($id, $dto);
+        return $this->repository->update($id, $orderData);
     }
 
-    /**
-     * Update status order. Validasi transisi status yang diizinkan.
-     */
     public function updateStatus(int $id, string $status): Order
     {
         $order = $this->getById($id);
 
-        $this->validateStatusTransition($order->status, $status);
+        if (! in_array($status, Order::STATUSES)) {
+            throw ValidationException::withMessages([
+                'status' => "Status '{$status}' tidak valid.",
+            ]);
+        }
+
+        if (in_array($order->status, [Order::STATUS_DONE, Order::STATUS_CANCELLED])) {
+            throw ValidationException::withMessages([
+                'status' => "Order dengan status '{$order->status}' tidak bisa diubah.",
+            ]);
+        }
 
         return $this->repository->updateStatus($id, $status);
     }
@@ -112,58 +102,36 @@ class OrderService
     {
         $order = $this->getById($id);
 
-        // Hanya order dengan status pending atau cancelled yang boleh dihapus
-        if (! in_array($order->status, [Order::STATUS_PENDING, Order::STATUS_CANCELLED])) {
+        if ($order->status === Order::STATUS_PROCESSING) {
             throw ValidationException::withMessages([
-                'order' => "Order dengan status '{$order->status}' tidak bisa dihapus.",
+                'order' => 'Order yang sedang diproses tidak bisa dihapus.',
             ]);
         }
 
         return $this->repository->delete($id);
     }
 
-    /**
-     * Buat order dari self-order pembeli (tanpa user_id, pakai customer_identifier).
-     */
-    public function createSelfOrder(OrderDTO $dto): Order
+    protected function validateAndCalculateItems(array $items): array
     {
-        if (empty($dto->customerIdentifier)) {
-            throw ValidationException::withMessages([
-                'customer_identifier' => 'Identitas pembeli diperlukan untuk self-order.',
-            ]);
-        }
-
-        return $this->create($dto);
-    }
-
-    // ─── Private Helpers ─────────────────────────────────────────────────
-
-    /**
-     * Resolve items dari request: ambil snapshot harga dari Menu,
-     * merge item dengan menu_id yang sama, hitung subtotal.
-     * Hanya menu yang is_available=true yang diizinkan.
-     */
-    protected function resolveItems(array $rawItems): array
-    {
-        if (empty($rawItems)) {
+        if (empty($items)) {
             throw ValidationException::withMessages([
                 'items' => 'Minimal satu item menu wajib dipilih.',
             ]);
         }
 
-        // Merge item dengan menu_id yang sama sebelum query ke DB
-        $merged = collect($rawItems)
+        $calculatedItems = [];
+        $mergedItems = collect($items)
             ->groupBy('menu_id')
-            ->map(fn ($group, $menuId) => [
-                'menu_id'  => (int) $menuId,
-                'quantity' => $group->sum('quantity'),
-            ])
+            ->map(function ($group, $menuId) {
+                return [
+                    'menu_id' => (int) $menuId,
+                    'quantity' => $group->sum('quantity'),
+                ];
+            })
             ->values()
             ->all();
 
-        $menuIds = array_column($merged, 'menu_id');
-
-        // Ambil semua menu dalam satu query (only available)
+        $menuIds = array_column($mergedItems, 'menu_id');
         $menus = Menu::available()->whereIn('id', $menuIds)->get()->keyBy('id');
 
         if (count($menus) !== count(array_unique($menuIds))) {
@@ -172,39 +140,27 @@ class OrderService
             ]);
         }
 
-        return collect($merged)->map(function ($item) use ($menus) {
-            $menu         = $menus[$item['menu_id']];
-            $quantity     = (int) $item['quantity'];
-            $priceAtOrder = (float) $menu->price;
-            $subtotal     = $quantity * $priceAtOrder;
+        foreach ($mergedItems as $item) {
+            $menuId = $item['menu_id'];
+            $quantity = $item['quantity'];
 
-            return (new OrderItemDTO(
-                menuId:       $menu->id,
-                menuName:     $menu->name,
-                quantity:     $quantity,
-                priceAtOrder: $priceAtOrder,
-                subtotal:     $subtotal,
-            ))->toArray();
-        })->all();
-    }
+            if ($quantity < 1) {
+                throw ValidationException::withMessages([
+                    'items' => 'Jumlah item minimal harus 1.',
+                ]);
+            }
 
-    /**
-     * Validasi transisi status order.
-     * pending → processing → done | cancelled
-     */
-    protected function validateStatusTransition(string $current, string $next): void
-    {
-        $allowed = [
-            Order::STATUS_PENDING    => [Order::STATUS_PROCESSING, Order::STATUS_CANCELLED],
-            Order::STATUS_PROCESSING => [Order::STATUS_DONE, Order::STATUS_CANCELLED],
-            Order::STATUS_DONE       => [],
-            Order::STATUS_CANCELLED  => [],
-        ];
+            $menu = $menus[$menuId];
 
-        if (! in_array($next, $allowed[$current] ?? [])) {
-            throw ValidationException::withMessages([
-                'status' => "Transisi status dari '{$current}' ke '{$next}' tidak diizinkan.",
-            ]);
+            $calculatedItems[] = [
+                'menu_id' => $menuId,
+                'menu_name' => $menu->name,
+                'quantity' => $quantity,
+                'price_at_order' => $menu->price,
+                'subtotal' => $quantity * $menu->price,
+            ];
         }
+
+        return $calculatedItems;
     }
 }

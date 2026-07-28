@@ -80,23 +80,23 @@
 ## PHASE 3 — AUTHENTICATION `👤 Umar`
 
 ### 3.1 Backend
-- [ ] Buat `AuthController` (`login`, `logout`, `me`)
-- [ ] Buat `LoginRequest` (validasi email + password)
-- [ ] Buat `AuthService` (logic verifikasi, issue token Sanctum)
-- [ ] Buat `UserResource` (format response user)
-- [ ] Daftarkan route `POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`
-- [ ] Middleware `auth:sanctum` pada route terproteksi
-- [ ] Middleware `role` custom untuk membatasi akses per role
-- [ ] Test endpoint login & logout via Postman
+- [x] Buat `AuthController` (`login`, `logout`, `me`)
+- [x] Buat `LoginRequest` (validasi email + password)
+- [x] Buat `AuthService` (logic verifikasi, issue token Sanctum)
+- [x] Buat `UserResource` (format response user)
+- [x] Daftarkan route `POST /api/v1/auth/login`, `POST /api/v1/auth/logout`, `GET /api/v1/auth/me`
+- [x] Middleware `auth:sanctum` pada route terproteksi
+- [x] Middleware `role` custom untuk membatasi akses per role
+- [x] Test endpoint login & logout via Postman
 
 ### 3.2 Frontend
-- [ ] Buat halaman `LoginPage`
-- [ ] Buat `useAuthStore` (Zustand) — simpan token & data user
-- [ ] Buat `authService.js` — fungsi `login()`, `logout()`, `getMe()`
-- [ ] Setup Axios interceptor (attach Bearer token otomatis)
-- [ ] Redirect ke dashboard sesuai role setelah login
-- [ ] Guard route (redirect ke login jika belum auth)
-- [ ] Buat komponen `ProtectedRoute`
+- [x] Buat halaman `LoginPage`
+- [x] Buat `useAuthStore` (Zustand) — simpan token & data user
+- [x] Buat `authService.js` — fungsi `login()`, `logout()`, `getMe()`
+- [x] Setup Axios interceptor (attach Bearer token otomatis)
+- [x] Redirect ke dashboard sesuai role setelah login
+- [x] Guard route (redirect ke login jika belum auth)
+- [x] Buat komponen `ProtectedRoute`
 
 ---
 
@@ -151,19 +151,8 @@
 
 ## PHASE 6 — MANAJEMEN ORDER `👤 Bani`
 
-<<<<<<< HEAD
-### 6.1 Backend
-- [x] Buat `OrderController` (index, show, store, update, destroy, updateStatus)
-- [x] Buat `OrderRequest` (validasi items + payment)
-- [x] Buat `OrderService` (hitung total, update status, simpan items)
-- [x] Buat `OrderRepository`
-- [x] Buat `OrderResource` + `OrderItemResource`
-- [x] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
-- [x] Logic self-order pembeli (device fingerprint, sesi 24 jam)
-=======
 > ✅ Backend bisa dikerjakan tanpa menunggu Umar.
 > ❌ Frontend Karyawan & Self-Order butuh Phase 3 Auth, Phase 4 Layout, dan Phase 5 Menu API dari Umar.
->>>>>>> f8badd55e32a7be3bee105d2bc0ccede290c97fc
 
 ### 6.1 Backend `✅ Bisa dikerjakan sekarang`
 - [x] Buat `OrderController` (index, show, store, update, destroy, updateStatus)
@@ -333,18 +322,6 @@
 |---|---|---|---|
 | Phase 1 — Setup | ✅ Done | Bersama | Laravel + React setup selesai |
 | Phase 2 — Database | ✅ Done | Bani | Migration + Seeder + Model & Relasi selesai |
-<<<<<<< HEAD
-| Phase 3 — Auth | ⬜ Belum | Dev A | |
-| Phase 4 — Dashboard | ⬜ Belum | Dev A | |
-| Phase 5 — Menu & Kategori | ⬜ Belum | Dev A | |
-| Phase 6 — Order | 🔄 In Progress | Dev B | 6.1 Backend selesai |
-| Phase 7 — Karyawan | ⬜ Belum | Dev B | |
-| Phase 8 — Laporan | ⬜ Belum | Dev A | |
-| Phase 9 — Audit Log | ⬜ Belum | Dev A | |
-| Phase 10 — Security | ⬜ Belum | Dev A | |
-| Phase 11 — Testing | ⬜ Belum | Bersama | |
-| Phase 12 — Production | ⬜ Belum | Bersama | |
-=======
 | Phase 3 — Auth | ⬜ Belum | Umar | **BLOCKING**: Bani butuh ini untuk frontend |
 | Phase 4 — Dashboard | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Layout untuk frontend |
 | Phase 5 — Menu & Kategori | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Menu API untuk Self-Order |
@@ -398,4 +375,3 @@
 3. **Setelah Umar selesai Phase 3–4**: Bani bisa lanjut semua frontend Order & Karyawan
 4. **Setelah Umar selesai Phase 5**: Bani bisa lanjut Self-Order Pembeli
 5. **Testing parallel**: Setelah backend/frontend masing-masing selesai, masing-masing test fiturnya sendiri
->>>>>>> f8badd55e32a7be3bee105d2bc0ccede290c97fc

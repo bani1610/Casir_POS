@@ -30,15 +30,15 @@ class OrderDTO
     public static function fromArray(array $data): self
     {
         return new self(
-            id:                 $data['id'] ?? null,
-            userId:             $data['user_id'] ?? null,
-            paymentMethodId:    $data['payment_method_id'] ?? null,
-            tableNumber:        $data['table_number'] ?? null,
+            id: $data['id'] ?? null,
+            userId: $data['user_id'] ?? null,
+            paymentMethodId: $data['payment_method_id'] ?? null,
+            tableNumber: $data['table_number'] ?? null,
             customerIdentifier: $data['customer_identifier'] ?? null,
-            status:             $data['status'] ?? 'pending',
-            totalPrice:         (float) ($data['total_price'] ?? 0),
-            notes:              $data['notes'] ?? null,
-            items:              $data['items'] ?? [],
+            status: $data['status'] ?? 'pending',
+            totalPrice: (float) ($data['total_price'] ?? 0),
+            notes: $data['notes'] ?? null,
+            items: $data['items'] ?? [],
         );
     }
 
@@ -50,15 +50,15 @@ class OrderDTO
     public function toArray(): array
     {
         return [
-            'id'                  => $this->id,
-            'user_id'             => $this->userId,
-            'payment_method_id'   => $this->paymentMethodId,
-            'table_number'        => $this->tableNumber,
+            'id' => $this->id,
+            'user_id' => $this->userId,
+            'payment_method_id' => $this->paymentMethodId,
+            'table_number' => $this->tableNumber,
             'customer_identifier' => $this->customerIdentifier,
-            'status'              => $this->status,
-            'total_price'         => $this->totalPrice,
-            'notes'               => $this->notes,
-            'items'               => $this->items,
+            'status' => $this->status,
+            'total_price' => $this->totalPrice,
+            'notes' => $this->notes,
+            'items' => $this->items,
         ];
     }
 }

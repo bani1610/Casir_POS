@@ -90,7 +90,7 @@ class OrderRepository implements OrderRepositoryInterface
     {
         $order = $this->model->findOrFail($id);
         $order->update([
-            'status'  => $status,
+            'status' => $status,
             'paid_at' => $status === Order::STATUS_DONE && is_null($order->paid_at)
                 ? now()
                 : $order->paid_at,
@@ -122,13 +122,13 @@ class OrderRepository implements OrderRepositoryInterface
     protected function orderData(OrderDTO $dto): array
     {
         return [
-            'user_id'             => $dto->userId,
-            'payment_method_id'   => $dto->paymentMethodId,
-            'table_number'        => $dto->tableNumber,
+            'user_id' => $dto->userId,
+            'payment_method_id' => $dto->paymentMethodId,
+            'table_number' => $dto->tableNumber,
             'customer_identifier' => $dto->customerIdentifier,
-            'status'              => $dto->status,
-            'total_price'         => $dto->totalPrice,
-            'notes'               => $dto->notes,
+            'status' => $dto->status,
+            'total_price' => $dto->totalPrice,
+            'notes' => $dto->notes,
         ];
     }
 }

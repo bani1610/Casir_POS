@@ -1,7 +1,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { useNavigate, Navigate } from 'react-router-dom';
+import { useNavigate, Navigate, Link } from 'react-router-dom';
 import { toast } from 'sonner';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { useState } from 'react';
@@ -10,7 +10,7 @@ import { useAuthStore } from '@/stores/authStore';
 
 const schema = z.object({
     email: z.string().email('Format email tidak valid'),
-    password: z.string().min(8, 'Password minimal 8 karakter'),
+    password: z.string().min(1, 'Password wajib diisi'),
     remember: z.boolean().optional(),
 });
 
@@ -128,6 +128,16 @@ export default function LoginPage() {
                             {isSubmitting ? 'Masuk...' : 'Masuk'}
                         </button>
                     </form>
+
+                    {/* Forgot Password Link */}
+                    <div className="text-center mt-4">
+                        <Link
+                            to="/forgot-password"
+                            className="text-sm text-[var(--color-primary)] hover:text-[var(--color-primary-dark)] transition-colors"
+                        >
+                            Lupa Password?
+                        </Link>
+                    </div>
                 </div>
 
                 <p className="text-center text-xs text-[var(--color-text-muted)] mt-6">
