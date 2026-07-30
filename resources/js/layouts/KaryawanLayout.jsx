@@ -8,7 +8,7 @@ import { ClipboardList, Plus, LogOut, Menu, X } from 'lucide-react';
 const navItems = [
     { to: '/karyawan',              icon: ClipboardList, label: 'Order Aktif', end: true },
     { to: '/karyawan/orders/create', icon: Plus,          label: 'Buat Order'  },
-    { to: '/karyawan/orders',        icon: ClipboardList, label: 'Riwayat Order' },
+    { to: '/karyawan/orders',        icon: ClipboardList, label: 'Riwayat Order', end: true },
 ];
 
 export default function KaryawanLayout() {

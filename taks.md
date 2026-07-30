@@ -123,6 +123,22 @@
 - [x] Daftar order pending/processing
 - [x] Tombol cepat "Buat Order Baru"
 
+### 4.4 Evaluasi & Bug Fix (Hasil Review — 2026-07-30) `👤 Umar`
+
+> ⚠️ Ditemukan saat review branch `dashboard`. Wajib diperbaiki sebelum Phase 4 dinyatakan benar-benar selesai.
+
+**Bug yang sudah diperbaiki:**
+- [x] Bug `NavLink` — "Riwayat Order" ikut aktif saat di halaman "Buat Order" (`end: true` ditambahkan di `KaryawanLayout`)
+- [x] Install package `recharts` yang belum ada di `node_modules`
+
+**Gap yang harus diperbaiki:**
+- [ ] **Dashboard Admin — Grafik**: Grafik saat ini hanya menampilkan order per status, bukan grafik tren penjualan harian/mingguan/bulanan. Tambahkan data `orders_per_day` ke `DashboardController` dan ubah grafik menjadi line/bar chart tren waktu (sesuai PRD Section 8)
+- [ ] **Dashboard Admin — StatCard bulan ini**: Tambahkan statistik total pendapatan bulan ini (saat ini hanya hari ini). PRD menyebut "hari ini / bulan ini"
+- [ ] **Admin Sidebar — Nav "Orders"**: Item navigasi "Orders" hilang dari `AdminLayout`. Sesuai PRD Section 12, sidebar admin harus ada: Dashboard, **Orders**, Menu, Karyawan, Laporan, Pengaturan, Profil
+- [ ] **Admin Sidebar — Nav "Pengaturan"**: Belum ada nav item Pengaturan di `AdminLayout` (bisa placeholder dulu)
+- [ ] **Admin Sidebar — Nav "Profil"**: Belum ada nav item Profil di `AdminLayout`
+- [ ] **Karyawan Sidebar — Nav "Profil"**: Belum ada nav item Profil di `KaryawanLayout`
+
 ---
 
 ## PHASE 5 — MANAJEMEN KATEGORI & MENU `👤 Umar`
@@ -323,7 +339,7 @@
 | Phase 1 — Setup | ✅ Done | Bersama | Laravel + React setup selesai |
 | Phase 2 — Database | ✅ Done | Bani | Migration + Seeder + Model & Relasi selesai |
 | Phase 3 — Auth | ✅ Done | Umar | Backend + Frontend + Tests selesai |
-| Phase 4 — Dashboard | ✅ Done | Umar | Layout responsive + Dashboard Admin & Karyawan selesai |
+| Phase 4 — Dashboard | ⚠️ Ada Gap | Umar | Bug NavLink & recharts ✅ diperbaiki. Masih ada: grafik tren waktu, StatCard bulan ini, nav Orders/Pengaturan/Profil |
 | Phase 5 — Menu & Kategori | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Menu API untuk Self-Order |
 | Phase 6 — Order (Backend) | ⬜ Belum | Bani | ✅ Bisa dikerjakan sekarang |
 | Phase 6 — Order (Frontend) | ⬜ Belum | Bani | ⛔ Butuh Phase 3, 4, 5 dari Umar |
