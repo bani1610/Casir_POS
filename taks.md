@@ -103,25 +103,25 @@
 ## PHASE 4 — LAYOUT & DASHBOARD `👤 Umar`
 
 ### 4.1 Layout
-- [ ] Buat `AdminLayout` (sidebar + header + outlet)
-- [ ] Buat `KaryawanLayout` (sidebar ringkas + header)
-- [ ] Buat `GuestLayout` (untuk self-order pembeli)
-- [ ] Buat komponen `Sidebar` (navigasi per role)
-- [ ] Buat komponen `Header` (breadcrumb, user info, logout)
-- [ ] Responsif: mobile drawer sidebar
+- [x] Buat `AdminLayout` (sidebar + header + outlet)
+- [x] Buat `KaryawanLayout` (sidebar ringkas + header)
+- [x] Buat `GuestLayout` (untuk self-order pembeli)
+- [x] Buat komponen `Sidebar` (navigasi per role) — embedded in layouts
+- [x] Buat komponen `Header` (breadcrumb, user info, logout) — embedded in layouts
+- [x] Responsif: mobile drawer sidebar
 
 ### 4.2 Dashboard Admin
-- [ ] Buat `DashboardController` dengan endpoint statistik
-- [ ] Endpoint `GET /api/v1/dashboard` (total order, pendapatan hari ini, menu terlaris)
-- [ ] Buat `DashboardPage` (Admin)
-- [ ] Komponen `StatCard` (total pendapatan, total order, dll.)
-- [ ] Komponen grafik penjualan (`Recharts` line/bar chart)
-- [ ] Tabel order terbaru (5 terakhir)
+- [x] Buat `DashboardController` dengan endpoint statistik
+- [x] Endpoint `GET /api/v1/dashboard/admin` (total order, pendapatan hari ini, menu terlaris)
+- [x] Buat `DashboardPage` (Admin)
+- [x] Komponen `StatCard` (total pendapatan, total order, dll.)
+- [x] Komponen grafik penjualan (`Recharts` line/bar chart)
+- [x] Tabel order terbaru (5 terakhir)
 
 ### 4.3 Dashboard Karyawan
-- [ ] Buat `DashboardPage` (Karyawan) — tampil order aktif
-- [ ] Daftar order pending/processing
-- [ ] Tombol cepat "Buat Order Baru"
+- [x] Buat `DashboardPage` (Karyawan) — tampil order aktif
+- [x] Daftar order pending/processing
+- [x] Tombol cepat "Buat Order Baru"
 
 ---
 
@@ -322,8 +322,8 @@
 |---|---|---|---|
 | Phase 1 — Setup | ✅ Done | Bersama | Laravel + React setup selesai |
 | Phase 2 — Database | ✅ Done | Bani | Migration + Seeder + Model & Relasi selesai |
-| Phase 3 — Auth | ⬜ Belum | Umar | **BLOCKING**: Bani butuh ini untuk frontend |
-| Phase 4 — Dashboard | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Layout untuk frontend |
+| Phase 3 — Auth | ✅ Done | Umar | Backend + Frontend + Tests selesai |
+| Phase 4 — Dashboard | ✅ Done | Umar | Layout responsive + Dashboard Admin & Karyawan selesai |
 | Phase 5 — Menu & Kategori | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Menu API untuk Self-Order |
 | Phase 6 — Order (Backend) | ⬜ Belum | Bani | ✅ Bisa dikerjakan sekarang |
 | Phase 6 — Order (Frontend) | ⬜ Belum | Bani | ⛔ Butuh Phase 3, 4, 5 dari Umar |
