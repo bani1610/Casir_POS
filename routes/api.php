@@ -38,10 +38,10 @@ Route::prefix('v1')->group(function () {
         Route::get('dashboard/karyawan', [\App\Http\Controllers\Api\DashboardController::class, 'karyawan']);
 
         // Categories
-        // Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
+        Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
 
         // Menus
-        // Route::apiResource('menus', \App\Http\Controllers\Api\MenuController::class);
+        Route::apiResource('menus', \App\Http\Controllers\Api\MenuController::class);
 
         // Payment Methods
         // Route::apiResource('payment-methods', \App\Http\Controllers\Api\PaymentMethodController::class);
