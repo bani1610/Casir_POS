@@ -138,6 +138,13 @@
 - [x] **Admin Sidebar — Nav "Pengaturan"**: Tambah nav item Pengaturan (placeholder route `/admin/settings`)
 - [x] **Admin Sidebar — Nav "Profil"**: Tambah nav item Profil (placeholder route `/admin/profile`)
 - [x] **Karyawan Sidebar — Nav "Profil"**: Tambah nav item Profil (route `/karyawan/profile`)
+**Gap yang harus diperbaiki:**
+- [ ] **Dashboard Admin — Grafik**: Grafik saat ini hanya menampilkan order per status, bukan grafik tren penjualan harian/mingguan/bulanan. Tambahkan data `orders_per_day` ke `DashboardController` dan ubah grafik menjadi line/bar chart tren waktu (sesuai PRD Section 8)
+- [ ] **Dashboard Admin — StatCard bulan ini**: Tambahkan statistik total pendapatan bulan ini (saat ini hanya hari ini). PRD menyebut "hari ini / bulan ini"
+- [ ] **Admin Sidebar — Nav "Orders"**: Item navigasi "Orders" hilang dari `AdminLayout`. Sesuai PRD Section 12, sidebar admin harus ada: Dashboard, **Orders**, Menu, Karyawan, Laporan, Pengaturan, Profil
+- [ ] **Admin Sidebar — Nav "Pengaturan"**: Belum ada nav item Pengaturan di `AdminLayout` (bisa placeholder dulu)
+- [ ] **Admin Sidebar — Nav "Profil"**: Belum ada nav item Profil di `AdminLayout`
+- [ ] **Karyawan Sidebar — Nav "Profil"**: Belum ada nav item Profil di `KaryawanLayout`
 
 ---
 
