@@ -5,16 +5,20 @@ import { authService } from '@/services/authService';
 import { toast } from 'sonner';
 import {
     LayoutDashboard, UtensilsCrossed, Tags,
-    Users, BarChart3, Shield, LogOut, Menu, X
+    Users, BarChart3, Shield, LogOut, Menu, X,
+    ShoppingBag, Settings, User
 } from 'lucide-react';
 
 const navItems = [
     { to: '/admin',           icon: LayoutDashboard, label: 'Dashboard',   end: true },
+    { to: '/admin/orders',    icon: ShoppingBag,     label: 'Orders'        },
     { to: '/admin/menus',     icon: UtensilsCrossed, label: 'Menu'          },
     { to: '/admin/categories',icon: Tags,            label: 'Kategori'      },
     { to: '/admin/karyawan',  icon: Users,           label: 'Karyawan'      },
     { to: '/admin/laporan',   icon: BarChart3,       label: 'Laporan'       },
     { to: '/admin/audit-log', icon: Shield,          label: 'Audit Log'     },
+    { to: '/admin/settings',  icon: Settings,        label: 'Pengaturan'    },
+    { to: '/admin/profile',   icon: User,            label: 'Profil'        },
 ];
 
 export default function AdminLayout() {

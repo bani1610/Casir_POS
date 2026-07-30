@@ -3,12 +3,13 @@ import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useAuthStore } from '@/stores/authStore';
 import { authService } from '@/services/authService';
 import { toast } from 'sonner';
-import { ClipboardList, Plus, LogOut, Menu, X } from 'lucide-react';
+import { ClipboardList, Plus, LogOut, Menu, X, User } from 'lucide-react';
 
 const navItems = [
     { to: '/karyawan',              icon: ClipboardList, label: 'Order Aktif', end: true },
     { to: '/karyawan/orders/create', icon: Plus,          label: 'Buat Order'  },
-    { to: '/karyawan/orders',        icon: ClipboardList, label: 'Riwayat Order' },
+    { to: '/karyawan/orders',        icon: ClipboardList, label: 'Riwayat Order', end: true },
+    { to: '/karyawan/profile',       icon: User,          label: 'Profil' },
 ];
 
 export default function KaryawanLayout() {

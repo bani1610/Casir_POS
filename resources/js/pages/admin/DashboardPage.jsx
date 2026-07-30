@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { dashboardService } from '@/services/dashboardService';
 import StatCard from '@/components/ui/StatCard';
-import { DollarSign, ShoppingBag, Clock, XCircle, TrendingUp } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { DollarSign, ShoppingBag, Clock, XCircle, TrendingUp, Calendar } from 'lucide-react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { toast } from 'sonner';
 import dayjs from 'dayjs';
 
@@ -43,12 +43,12 @@ export default function AdminDashboardPage() {
         }).format(amount);
     };
 
-    const statusChartData = [
-        { name: 'Pending', value: stats?.orders_by_status?.pending || 0, fill: '#f59e0b' },
-        { name: 'Processing', value: stats?.orders_by_status?.processing || 0, fill: '#3b82f6' },
-        { name: 'Done', value: stats?.orders_by_status?.done || 0, fill: '#22c55e' },
-        { name: 'Cancelled', value: stats?.orders_by_status?.cancelled || 0, fill: '#ef4444' },
-    ];
+    // Format data untuk line chart tren penjualan 7 hari terakhir
+    const salesTrendData = (stats?.orders_per_day || []).map(item => ({
+        date: dayjs(item.date).format('DD MMM'),
+        orders: item.total_orders,
+        revenue: item.revenue / 1000, // Dalam ribuan untuk readability
+    }));
 
     return (
         <div className="space-y-6">
@@ -61,13 +61,20 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* Stats Cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                 <StatCard
                     icon={DollarSign}
-                    label="Total Pendapatan"
+                    label="Pendapatan Hari Ini"
                     value={formatRupiah(stats?.total_revenue_today || 0)}
                     iconBgColor="bg-green-50"
                     iconColor="text-green-600"
+                />
+                <StatCard
+                    icon={Calendar}
+                    label="Pendapatan Bulan Ini"
+                    value={formatRupiah(stats?.total_revenue_month || 0)}
+                    iconBgColor="bg-emerald-50"
+                    iconColor="text-emerald-600"
                 />
                 <StatCard
                     icon={ShoppingBag}
@@ -93,13 +100,13 @@ export default function AdminDashboardPage() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                {/* Order Status Chart */}
+                {/* Sales Trend Chart */}
                 <div className="bg-white rounded-xl p-6 border border-[var(--color-border)] shadow-sm">
-                    <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">Order per Status</h2>
+                    <h2 className="text-lg font-semibold text-[var(--color-text)] mb-4">Tren Penjualan 7 Hari Terakhir</h2>
                     <ResponsiveContainer width="100%" height={300}>
-                        <BarChart data={statusChartData}>
+                        <LineChart data={salesTrendData}>
                             <CartesianGrid strokeDasharray="3 3" stroke="#e2e8f0" />
-                            <XAxis dataKey="name" tick={{ fill: '#64748b', fontSize: 12 }} />
+                            <XAxis dataKey="date" tick={{ fill: '#64748b', fontSize: 12 }} />
                             <YAxis tick={{ fill: '#64748b', fontSize: 12 }} />
                             <Tooltip
                                 contentStyle={{
@@ -107,9 +114,29 @@ export default function AdminDashboardPage() {
                                     border: '1px solid #e2e8f0',
                                     borderRadius: '8px',
                                 }}
+                                formatter={(value, name) => {
+                                    if (name === 'revenue') return [formatRupiah(value * 1000), 'Revenue'];
+                                    return [value, 'Orders'];
+                                }}
                             />
-                            <Bar dataKey="value" radius={[8, 8, 0, 0]} />
-                        </BarChart>
+                            <Legend />
+                            <Line
+                                type="monotone"
+                                dataKey="orders"
+                                stroke="#3b82f6"
+                                strokeWidth={2}
+                                dot={{ fill: '#3b82f6', r: 4 }}
+                                name="Total Order"
+                            />
+                            <Line
+                                type="monotone"
+                                dataKey="revenue"
+                                stroke="#22c55e"
+                                strokeWidth={2}
+                                dot={{ fill: '#22c55e', r: 4 }}
+                                name="Revenue (Ribu)"
+                            />
+                        </LineChart>
                     </ResponsiveContainer>
                 </div>
 

@@ -26,7 +26,9 @@ class DashboardController extends Controller
             'data' => [
                 'total_orders_today' => $statistics['total_orders_today'],
                 'total_revenue_today' => $statistics['total_revenue_today'],
+                'total_revenue_month' => $statistics['total_revenue_month'],
                 'orders_by_status' => $statistics['orders_by_status'],
+                'orders_per_day' => $statistics['orders_per_day'],
                 'top_selling_menus' => $statistics['top_selling_menus'],
                 'recent_orders' => OrderResource::collection($statistics['recent_orders']),
             ],
