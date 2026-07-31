@@ -6,11 +6,11 @@ class OrderItemDTO
 {
     /**
      * @param int|null $id
-     * @param int $menuId ID menu yang dipesan
-     * @param string $menuName Snapshot nama menu saat order
-     * @param int $quantity Jumlah item
-     * @param float $priceAtOrder Snapshot harga menu saat transaksi
-     * @param float $subtotal quantity * priceAtOrder
+     * @param int $menuId 
+     * @param string $menuName 
+     * @param int $quantity 
+     * @param float $priceAtOrder 
+     * @param float $subtotal 
      */
     public function __construct(
         public readonly ?int $id = null,

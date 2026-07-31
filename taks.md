@@ -103,25 +103,48 @@
 ## PHASE 4 — LAYOUT & DASHBOARD `👤 Umar`
 
 ### 4.1 Layout
-- [ ] Buat `AdminLayout` (sidebar + header + outlet)
-- [ ] Buat `KaryawanLayout` (sidebar ringkas + header)
-- [ ] Buat `GuestLayout` (untuk self-order pembeli)
-- [ ] Buat komponen `Sidebar` (navigasi per role)
-- [ ] Buat komponen `Header` (breadcrumb, user info, logout)
-- [ ] Responsif: mobile drawer sidebar
+- [x] Buat `AdminLayout` (sidebar + header + outlet)
+- [x] Buat `KaryawanLayout` (sidebar ringkas + header)
+- [x] Buat `GuestLayout` (untuk self-order pembeli)
+- [x] Buat komponen `Sidebar` (navigasi per role) — embedded in layouts
+- [x] Buat komponen `Header` (breadcrumb, user info, logout) — embedded in layouts
+- [x] Responsif: mobile drawer sidebar
 
 ### 4.2 Dashboard Admin
-- [ ] Buat `DashboardController` dengan endpoint statistik
-- [ ] Endpoint `GET /api/v1/dashboard` (total order, pendapatan hari ini, menu terlaris)
-- [ ] Buat `DashboardPage` (Admin)
-- [ ] Komponen `StatCard` (total pendapatan, total order, dll.)
-- [ ] Komponen grafik penjualan (`Recharts` line/bar chart)
-- [ ] Tabel order terbaru (5 terakhir)
+- [x] Buat `DashboardController` dengan endpoint statistik
+- [x] Endpoint `GET /api/v1/dashboard/admin` (total order, pendapatan hari ini, menu terlaris)
+- [x] Buat `DashboardPage` (Admin)
+- [x] Komponen `StatCard` (total pendapatan, total order, dll.)
+- [x] Komponen grafik penjualan (`Recharts` line/bar chart)
+- [x] Tabel order terbaru (5 terakhir)
 
 ### 4.3 Dashboard Karyawan
-- [ ] Buat `DashboardPage` (Karyawan) — tampil order aktif
-- [ ] Daftar order pending/processing
-- [ ] Tombol cepat "Buat Order Baru"
+- [x] Buat `DashboardPage` (Karyawan) — tampil order aktif
+- [x] Daftar order pending/processing
+- [x] Tombol cepat "Buat Order Baru"
+
+### 4.4 Evaluasi & Bug Fix (Hasil Review — 2026-07-30) `👤 Umar`
+
+> ⚠️ Ditemukan saat review branch `dashboard`. Wajib diperbaiki sebelum Phase 4 dinyatakan benar-benar selesai.
+
+**Bug yang sudah diperbaiki:**
+- [x] Bug `NavLink` — "Riwayat Order" ikut aktif saat di halaman "Buat Order" (`end: true` ditambahkan di `KaryawanLayout`)
+- [x] Install package `recharts` yang belum ada di `node_modules`
+
+**Gap yang sudah diperbaiki:**
+- [x] **Dashboard Admin — Grafik**: LineChart tren penjualan 7 hari terakhir dengan data `orders_per_day` dari backend
+- [x] **Dashboard Admin — StatCard bulan ini**: Tambah StatCard "Pendapatan Bulan Ini" dengan data `total_revenue_month`
+- [x] **Admin Sidebar — Nav "Orders"**: Tambah nav item Orders di posisi kedua setelah Dashboard
+- [x] **Admin Sidebar — Nav "Pengaturan"**: Tambah nav item Pengaturan (placeholder route `/admin/settings`)
+- [x] **Admin Sidebar — Nav "Profil"**: Tambah nav item Profil (placeholder route `/admin/profile`)
+- [x] **Karyawan Sidebar — Nav "Profil"**: Tambah nav item Profil (route `/karyawan/profile`)
+**Gap yang harus diperbaiki:**
+- [ ] **Dashboard Admin — Grafik**: Grafik saat ini hanya menampilkan order per status, bukan grafik tren penjualan harian/mingguan/bulanan. Tambahkan data `orders_per_day` ke `DashboardController` dan ubah grafik menjadi line/bar chart tren waktu (sesuai PRD Section 8)
+- [ ] **Dashboard Admin — StatCard bulan ini**: Tambahkan statistik total pendapatan bulan ini (saat ini hanya hari ini). PRD menyebut "hari ini / bulan ini"
+- [ ] **Admin Sidebar — Nav "Orders"**: Item navigasi "Orders" hilang dari `AdminLayout`. Sesuai PRD Section 12, sidebar admin harus ada: Dashboard, **Orders**, Menu, Karyawan, Laporan, Pengaturan, Profil
+- [ ] **Admin Sidebar — Nav "Pengaturan"**: Belum ada nav item Pengaturan di `AdminLayout` (bisa placeholder dulu)
+- [ ] **Admin Sidebar — Nav "Profil"**: Belum ada nav item Profil di `AdminLayout`
+- [ ] **Karyawan Sidebar — Nav "Profil"**: Belum ada nav item Profil di `KaryawanLayout`
 
 ---
 
@@ -322,8 +345,8 @@
 |---|---|---|---|
 | Phase 1 — Setup | ✅ Done | Bersama | Laravel + React setup selesai |
 | Phase 2 — Database | ✅ Done | Bani | Migration + Seeder + Model & Relasi selesai |
-| Phase 3 — Auth | ⬜ Belum | Umar | **BLOCKING**: Bani butuh ini untuk frontend |
-| Phase 4 — Dashboard | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Layout untuk frontend |
+| Phase 3 — Auth | ✅ Done | Umar | Backend + Frontend + Tests selesai |
+| Phase 4 — Dashboard | ⚠️ Ada Gap | Umar | Bug NavLink & recharts ✅ diperbaiki. Masih ada: grafik tren waktu, StatCard bulan ini, nav Orders/Pengaturan/Profil |
 | Phase 5 — Menu & Kategori | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Menu API untuk Self-Order |
 | Phase 6 — Order (Backend) | ⬜ Belum | Bani | ✅ Bisa dikerjakan sekarang |
 | Phase 6 — Order (Frontend) | ⬜ Belum | Bani | ⛔ Butuh Phase 3, 4, 5 dari Umar |

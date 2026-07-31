@@ -33,9 +33,9 @@ Route::prefix('v1')->group(function () {
             Route::get('me', [\App\Http\Controllers\Api\AuthController::class, 'me']);
         });
 
-        // TODO: Uncomment when controllers are implemented
         // Dashboard
-        // Route::get('dashboard', [\App\Http\Controllers\Api\DashboardController::class, 'index']);
+        Route::get('dashboard/admin', [\App\Http\Controllers\Api\DashboardController::class, 'admin']);
+        Route::get('dashboard/karyawan', [\App\Http\Controllers\Api\DashboardController::class, 'karyawan']);
 
         // Categories
         // Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
