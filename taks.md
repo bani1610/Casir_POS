@@ -151,24 +151,25 @@
 ## PHASE 5 — MANAJEMEN KATEGORI & MENU `👤 Umar`
 
 ### 5.1 Backend
-- [ ] Buat `CategoryController` (index, store, update, destroy)
-- [ ] Buat `CategoryRequest` (validasi)
-- [ ] Buat `CategoryService` + `CategoryRepository`
-- [ ] Buat `CategoryResource`
-- [ ] Daftarkan route CRUD `/api/v1/categories`
-- [ ] Buat `MenuController` (index, show, store, update, destroy)
-- [ ] Buat `MenuRequest` (validasi + upload foto)
-- [ ] Buat `MenuService` + `MenuRepository`
-- [ ] Buat `MenuResource`
-- [ ] Handle upload gambar ke `storage/app/public/menus`
-- [ ] Daftarkan route CRUD `/api/v1/menus`
+- [x] Buat `CategoryController` (index, store, update, destroy)
+- [x] Buat `CategoryRequest` (validasi) — *Bug fix: unique ignore `->id` diperbaiki*
+- [x] Buat `CategoryService` + `CategoryRepository`
+- [x] Buat `CategoryResource`
+- [x] Daftarkan route CRUD `/api/v1/categories`
+- [x] Buat `MenuController` (index, show, store, update, destroy) — *Tambah filter+paginate+toggleAvailable*
+- [x] Buat `MenuRequest` (validasi + upload foto) — *Bug fix: unique ignore `->id` diperbaiki*
+- [x] Buat `MenuService` + `MenuRepository` — *Tambah getPaginatedMenus(), toggleAvailable()*
+- [x] Buat `MenuResource`
+- [x] Handle upload gambar ke `storage/app/public/menus`
+- [x] Daftarkan route CRUD `/api/v1/menus`
+- [x] Daftarkan route `PATCH /api/v1/menus/{id}/toggle-available`
 
 ### 5.2 Frontend
-- [ ] Buat `CategoryPage` (tabel + modal tambah/edit/hapus)
-- [ ] Buat `MenuPage` (tabel + modal + preview foto)
-- [ ] Komponen `MenuCard` untuk self-order pembeli
-- [ ] Form validasi dengan React Hook Form + Zod
-- [ ] Toast notifikasi (Sonner) untuk setiap aksi
+- [x] Buat `CategoryPage` (tabel + search + filter status + modal tambah/edit/hapus)
+- [x] Buat `MenuPage` (grid card + search + filter kategori/status + pagination + quick toggle)
+- [x] Komponen `MenuCard` untuk self-order pembeli — *Upgrade: qty stepper, badge qty, overlay habis*
+- [x] Form validasi dengan React Hook Form + Zod
+- [x] Toast notifikasi (Sonner) untuk setiap aksi
 
 ---
 
@@ -185,20 +186,25 @@
 - [x] Buat `OrderResource` + `OrderItemResource`
 - [x] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
 - [x] Logic self-order pembeli (device fingerprint, sesi 24 jam)
+### Masih ada Bug untuk order self order saat pembeli melakukan pembayaran
+- Harus fix bug lagi secara menyeluruh untuk order self order
+- Design masih belom ramah untuk mobile/hp
+- Kalau sudah di bayar tidak ada notifikasi kalau sudah di bayar
+- 
 
-### 6.2 Frontend — Karyawan `⛔ Blocked by Umar Phase 3 + Phase 4 + Phase 5`
-- [ ] Buat `CreateOrderPage` (pilih menu, qty, catatan)
-- [ ] Buat `OrderListPage` (filter status, tanggal)
-- [ ] Buat `OrderDetailPage` (detail item + aksi update status)
-- [ ] Komponen `OrderStatusBadge`
-- [ ] Cetak struk (print CSS / window.print)
+### 6.2 Frontend — Karyawan
+- [x] Buat `CreateOrderPage` (split view: menu browser + keranjang, filter kategori)
+- [x] Buat `OrderListPage` (tabel filter status+tanggal, refresh, update status)
+- [x] `OrderDetailPage` → modal di dalam `OrderListPage` (detail item + aksi update status alur)
+- [x] Komponen `OrderStatusBadge` (pending/processing/done/cancelled)
+- [x] Cetak struk (window.print() dengan layout monospace)
 
-### 6.3 Frontend — Pembeli (Self-Order) `👤 Bani` `⛔ Blocked by Umar Phase 5 Menu API`
-- [ ] Buat `MenuBrowserPage` (tampil semua menu by kategori)
-- [ ] Buat `CartPage` (keranjang, hapus item, ubah qty)
-- [ ] Buat `CheckoutPage` (pilih metode pembayaran, konfirmasi)
-- [ ] Buat `OrderStatusPage` (status order real-time)
-- [ ] Simpan sesi pembeli di localStorage (expire 24 jam)
+### 6.3 Frontend — Pembeli (Self-Order)
+- [x] Buat `MenuBrowserPage` (grid menu, search, filter kategori, floating cart button)
+- [x] Buat `CartPage` (keranjang, ubah qty, hapus item, total)
+- [x] Buat `CheckoutPage` (card pilih bayar, nomor meja, catatan, submit)
+- [x] Buat `OrderStatusPage` (polling 15 detik, status icon, pesan kontekstual)
+- [x] Simpan sesi pembeli di localStorage (expire 24 jam) — Zustand persist cartStore
 
 ---
 
@@ -347,7 +353,7 @@
 | Phase 2 — Database | ✅ Done | Bani | Migration + Seeder + Model & Relasi selesai |
 | Phase 3 — Auth | ✅ Done | Umar | Backend + Frontend + Tests selesai |
 | Phase 4 — Dashboard | ⚠️ Ada Gap | Umar | Bug NavLink & recharts ✅ diperbaiki. Masih ada: grafik tren waktu, StatCard bulan ini, nav Orders/Pengaturan/Profil |
-| Phase 5 — Menu & Kategori | ⬜ Belum | Umar | **BLOCKING**: Bani butuh Menu API untuk Self-Order |
+| Phase 5 — Menu & Kategori | ✅ Done | Umar | Backend + Frontend selesai. Filter, pagination, quick-toggle, MenuCard, bug fix request unique. **Bani sudah bisa mulai Self-Order** |
 | Phase 6 — Order (Backend) | ⬜ Belum | Bani | ✅ Bisa dikerjakan sekarang |
 | Phase 6 — Order (Frontend) | ⬜ Belum | Bani | ⛔ Butuh Phase 3, 4, 5 dari Umar |
 | Phase 7 — Karyawan (Backend) | ⬜ Belum | Bani | ✅ Bisa dikerjakan sekarang |

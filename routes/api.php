@@ -38,13 +38,15 @@ Route::prefix('v1')->group(function () {
         Route::get('dashboard/karyawan', [\App\Http\Controllers\Api\DashboardController::class, 'karyawan']);
 
         // Categories
-        // Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
+        Route::apiResource('categories', \App\Http\Controllers\Api\CategoryController::class);
 
         // Menus
-        // Route::apiResource('menus', \App\Http\Controllers\Api\MenuController::class);
+        Route::patch('menus/{menu}/toggle-available', [\App\Http\Controllers\Api\MenuController::class, 'toggleAvailable']);
+        Route::apiResource('menus', \App\Http\Controllers\Api\MenuController::class);
+
 
         // Payment Methods
-        // Route::apiResource('payment-methods', \App\Http\Controllers\Api\PaymentMethodController::class);
+        Route::get('payment-methods', [\App\Http\Controllers\Api\PaymentMethodController::class, 'index']);
 
         // Orders
         Route::patch('orders/{order}/status', [\App\Http\Controllers\Api\OrderController::class, 'updateStatus']);
