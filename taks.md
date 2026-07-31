@@ -186,6 +186,11 @@
 - [x] Buat `OrderResource` + `OrderItemResource`
 - [x] Daftarkan route `/api/v1/orders` + `PATCH /orders/{id}/status`
 - [x] Logic self-order pembeli (device fingerprint, sesi 24 jam)
+### Masih ada Bug untuk order self order saat pembeli melakukan pembayaran
+- Harus fix bug lagi secara menyeluruh untuk order self order
+- Design masih belom ramah untuk mobile/hp
+- Kalau sudah di bayar tidak ada notifikasi kalau sudah di bayar
+- 
 
 ### 6.2 Frontend — Karyawan
 - [x] Buat `CreateOrderPage` (split view: menu browser + keranjang, filter kategori)
