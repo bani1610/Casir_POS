@@ -14,7 +14,7 @@ class MenuRequest extends FormRequest
 
     public function rules(): array
     {
-        $menuId = $this->route('menu');
+        $menuId = $this->route('menu')?->id;
 
         return [
             'category_id' => 'required|exists:categories,id',

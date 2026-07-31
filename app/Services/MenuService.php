@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Models\Menu;
 use App\Repositories\MenuRepository;
+use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -17,6 +18,17 @@ class MenuService
     public function getAllMenus()
     {
         return $this->menuRepository->all();
+    }
+
+    /**
+     * Paginated + filtered list (untuk admin panel)
+     *
+     * @param array $filters  Keys: search, category_id, is_available
+     * @param int   $perPage
+     */
+    public function getPaginatedMenus(array $filters = [], int $perPage = 12): LengthAwarePaginator
+    {
+        return $this->menuRepository->paginate($filters, $perPage);
     }
 
     public function getAvailableMenus()
@@ -71,6 +83,11 @@ class MenuService
         }
 
         return $this->menuRepository->delete($menu);
+    }
+
+    public function toggleAvailable(Menu $menu): bool
+    {
+        return $this->menuRepository->toggleAvailable($menu);
     }
 
     /**

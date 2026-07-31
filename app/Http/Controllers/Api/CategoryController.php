@@ -47,7 +47,7 @@ class CategoryController extends Controller
     {
         return response()->json([
             'success' => true,
-            'data' => new CategoryResource($category),
+            'data' => new CategoryResource($category->loadCount('menus')),
         ]);
     }
 
