@@ -11,6 +11,11 @@ export const selfOrderService = {
         return (data.data ?? []).map(m => ({ ...m, image: m.image_url ?? m.image }));
     },
 
+    async getPaymentMethods() {
+        const { data } = await axios.get('/self-order/payment-methods');
+        return data.data ?? [];
+    },
+
     async placeOrder(payload) {
         // payload: { customer_identifier, payment_method_id, table_number, notes, items }
         const { data } = await axios.post('/self-order/orders', payload);

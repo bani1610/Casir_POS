@@ -25,7 +25,11 @@ api.interceptors.response.use(
     (error) => {
         if (error.response?.status === 401) {
             useAuthStore.getState().logout();
-            window.location.href = '/login';
+            const isGuestOrderRoute = window.location.pathname.startsWith('/order');
+            const isSelfOrderApi = error.config?.url?.includes('/self-order');
+            if (!isGuestOrderRoute && !isSelfOrderApi) {
+                window.location.href = '/login';
+            }
         }
         return Promise.reject(error);
     }

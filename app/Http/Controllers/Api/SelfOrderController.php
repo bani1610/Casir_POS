@@ -6,6 +6,7 @@ use App\DTO\OrderDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\OrderResource;
 use App\Models\Menu;
+use App\Models\PaymentMethod;
 use App\Services\OrderService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,6 +14,23 @@ use Illuminate\Http\Request;
 class SelfOrderController extends Controller
 {
     public function __construct(protected OrderService $orderService) {}
+
+    /**
+     * Get active payment methods for self-order (public, no auth required).
+     */
+    public function paymentMethods(): JsonResponse
+    {
+        $methods = PaymentMethod::active()->orderBy('name')->get();
+
+        return response()->json([
+            'success' => true,
+            'data'    => $methods->map(fn($m) => [
+                'id'          => $m->id,
+                'name'        => $m->name,
+                'description' => $m->description,
+            ]),
+        ]);
+    }
 
     /**
      * Get available menus for self-order (public, no auth required).

@@ -28,15 +28,23 @@ export const useCartStore = create(
 
             // ── Inisialisasi / reset sesi ──────────────────────────────────
             initSession: () => {
-                const { sessionCreatedAt } = get();
-                if (!sessionCreatedAt || isSessionExpired(sessionCreatedAt)) {
+                const { sessionCreatedAt, customerIdentifier } = get();
+                if (!sessionCreatedAt || !customerIdentifier || isSessionExpired(sessionCreatedAt)) {
                     set({
                         items: [],
                         sessionCreatedAt: Date.now(),
-                        customerIdentifier: generateIdentifier(),
+                        customerIdentifier: customerIdentifier || generateIdentifier(),
                         lastOrderId: null,
                     });
                 }
+            },
+            getIdentifier: () => {
+                let { customerIdentifier, initSession } = get();
+                if (!customerIdentifier) {
+                    initSession();
+                    customerIdentifier = get().customerIdentifier;
+                }
+                return customerIdentifier;
             },
 
             // ── Cart operations ────────────────────────────────────────────

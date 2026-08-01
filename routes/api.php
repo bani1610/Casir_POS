@@ -70,7 +70,9 @@ Route::prefix('v1')->group(function () {
     // ─── Public Self-Order (Pembeli, no auth) ─────────────────────────
     Route::prefix('self-order')->group(function () {
         Route::get('menus', [\App\Http\Controllers\Api\SelfOrderController::class, 'menuList']);
+        Route::get('payment-methods', [\App\Http\Controllers\Api\SelfOrderController::class, 'paymentMethods']);
         Route::post('orders', [\App\Http\Controllers\Api\SelfOrderController::class, 'placeOrder']);
         Route::get('orders/{customerIdentifier}', [\App\Http\Controllers\Api\SelfOrderController::class, 'orderStatus']);
     });
 });
+
